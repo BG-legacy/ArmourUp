@@ -66,7 +66,7 @@ func recoveryMiddleware() gin.HandlerFunc {
 // 1. Initializes the structured logger
 // 2. Loads application configuration
 // 3. Initializes the database connection
-// 4. Runs database migrations in development environment
+// 4. Runs database migrations if enabled
 // 5. Sets up the HTTP router with middleware
 // 6. Starts the HTTP server
 func main() {
@@ -87,11 +87,13 @@ func main() {
 		logger.Fatal("Error initializing database", zap.Error(err))
 	}
 
-	// Run migrations if in development
-	if os.Getenv("ENV") == "development" {
+	// Run migrations if enabled
+	if os.Getenv("RUN_MIGRATIONS") == "true" {
+		logger.Info("Running database migrations")
 		if err := database.AutoMigrate(db); err != nil {
 			logger.Fatal("Error running migrations", zap.Error(err))
 		}
+		logger.Info("Database migrations completed successfully")
 	}
 
 	// Create router

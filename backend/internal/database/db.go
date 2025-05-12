@@ -5,13 +5,13 @@ package database
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"armourup/internal/domain/encouragement"
 	"armourup/internal/domain/journal"
 	"armourup/internal/domain/user"
 
-	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -30,22 +30,21 @@ type Config struct {
 	SSLMode  string // SSL mode for the connection
 }
 
-// NewConfig creates a new database configuration using values from the application's configuration.
-// The configuration is loaded from environment variables or config files via Viper.
+// NewConfig creates a new database configuration using values from environment variables.
 func NewConfig() *Config {
 	return &Config{
-		Host:     viper.GetString("database.host"),     //this is the host for the database
-		Port:     viper.GetString("database.port"),     //this is the port for the database
-		User:     viper.GetString("database.user"),     //this is the user for the database
-		Password: viper.GetString("database.password"), //this is the password for the database
-		DBName:   viper.GetString("database.dbname"),   //this is the name of the database
-		SSLMode:  "disable",                            // TODO: Change to "require" in production
+		Host:     os.Getenv("ARMOURUP_DATABASE_HOST"),
+		Port:     os.Getenv("ARMOURUP_DATABASE_PORT"),
+		User:     os.Getenv("ARMOURUP_DATABASE_USER"),
+		Password: os.Getenv("ARMOURUP_DATABASE_PASSWORD"),
+		DBName:   os.Getenv("ARMOURUP_DATABASE_DBNAME"),
+		SSLMode:  "disable", // TODO: Change to "require" in production
 	}
 }
 
 // DSN returns the Data Source Name (connection string) for the database.
 // The string is formatted according to PostgreSQL's connection string format.
-func (c *Config) DSN() string { //this is the connect string for the database
+func (c *Config) DSN() string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		c.Host, c.Port, c.User, c.Password, c.DBName, c.SSLMode)
 }

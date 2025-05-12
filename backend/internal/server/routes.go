@@ -8,6 +8,7 @@ import (
 	"armourup/internal/domain/openai"
 	"armourup/internal/domain/user"
 	"armourup/internal/middleware"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -87,7 +88,8 @@ func setupJournalRoutes(router *gin.RouterGroup, db *gorm.DB) {
 func setupOpenAIRoutes(router *gin.RouterGroup) {
 	openaiService, err := openai.NewService()
 	if err != nil {
-		panic(err)
+		log.Printf("Warning: OpenAI integration disabled: %v", err)
+		return
 	}
 	openaiController := openai.NewController(openaiService)
 
@@ -105,7 +107,7 @@ func setupOpenAIRoutes(router *gin.RouterGroup) {
 // - Authentication routes
 // - Encouragement routes
 // - Journal routes
-// - OpenAI integration routes
+// - OpenAI integration routes (if configured)
 func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	api := router.Group("/api")
 	{

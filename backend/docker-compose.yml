@@ -1,0 +1,67 @@
+# ArmourUp Backend Docker Compose Configuration
+# This file defines the services required to run the ArmourUp backend application
+# in a production environment.
+
+# Project name for Docker Compose
+name: armourup-backend
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: .  # Build context is the current directory
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
+    ports:
+      - "8080:8080"  # Map container port 8080 to host port 8080
+    environment:
+      # Application environment
+      - ENV=production  # Set application environment to production
+      - GIN_MODE=release  # Set Gin framework to release mode
+      
+      # Database configuration
+      - ARMOURUP_DATABASE_HOST=postgres  # Database host (Docker service name)
+      - ARMOURUP_DATABASE_PORT=5432  # PostgreSQL default port
+      - ARMOURUP_DATABASE_USER=armourup  # Database user
+      - ARMOURUP_DATABASE_PASSWORD=armourup_password  # Database password
+      - ARMOURUP_DATABASE_DBNAME=armourup  # Database name
+      
+      # Optional OpenAI integration
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}  # Optional OpenAI API key
+      
+      # Database migrations
+      - RUN_MIGRATIONS=true  # Enable automatic database migrations
+    depends_on:
+      postgres:
+        condition: service_healthy  # Wait for PostgreSQL to be healthy before starting
+    networks:
+      - armourup-network  # Connect to the application network
+    restart: unless-stopped  # Restart policy for container crashes
+
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:15-alpine  # Use lightweight Alpine-based PostgreSQL image
+    environment:
+      - POSTGRES_USER=armourup  # Database user
+      - POSTGRES_PASSWORD=armourup_password  # Database password
+      - POSTGRES_DB=armourup  # Database name
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist database data
+    ports:
+      - "5432:5432"  # Map container port 5432 to host port 5432
+    networks:
+      - armourup-network  # Connect to the application network
+    restart: unless-stopped  # Restart policy for container crashes
+    healthcheck:  # Health check configuration
+      test: ["CMD-SHELL", "pg_isready -U armourup"]  # Check if PostgreSQL is ready
+      interval: 5s  # Check every 5 seconds
+      timeout: 5s  # Timeout after 5 seconds
+      retries: 5  # Retry 5 times before marking unhealthy
+
+# Network configuration
+networks:
+  armourup-network:  # Define a bridge network for service communication
+    driver: bridge
+
+# Volume configuration
+volumes:
+  postgres_data:  # Named volume for PostgreSQL data persistence 
