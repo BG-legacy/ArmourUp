@@ -10,7 +10,8 @@ export async function GET(
     
     // Get token from headers or cookies
     const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.split(' ')[1] || cookies().get('accessToken')?.value;
+    const cookieStore = await cookies();
+    const token = authHeader?.split(' ')[1] || cookieStore.get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json(
