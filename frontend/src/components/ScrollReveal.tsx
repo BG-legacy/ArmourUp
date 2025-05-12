@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useRef, useEffect, ReactNode } from 'react';
+import { useRef, ReactNode } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 /**

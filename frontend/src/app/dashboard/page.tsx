@@ -41,7 +41,7 @@ export default function Dashboard() {
                 Welcome, {user?.username}!
               </h1>
               <p className="text-lg gold-text opacity-80">
-                "Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go."
+                &ldquo;Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.&rdquo;
                 <br />— Joshua 1:9
               </p>
             </div>
@@ -63,7 +63,7 @@ export default function Dashboard() {
           >
             <h2 className="text-2xl font-semibold gold-text mb-4">Daily Encouragement</h2>
             <p className="gold-text mb-4 text-lg">
-              "The Lord is my strength and my shield; my heart trusts in him, and he helps me."
+              &ldquo;The Lord is my strength and my shield; my heart trusts in him, and he helps me.&rdquo;
               <br />— Psalm 28:7
             </p>
             <div className="flex items-center gold-text hover:opacity-80 transition-opacity">

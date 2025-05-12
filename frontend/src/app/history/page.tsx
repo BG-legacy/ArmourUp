@@ -17,7 +17,7 @@ interface EncouragementEntry {
 }
 
 export default function History() {
-  const { user, isLoading, isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated } = useAuth();
   const router = useRouter();
   const [encouragements, setEncouragements] = useState<EncouragementEntry[]>([]);
   const [isLoadingEntries, setIsLoadingEntries] = useState(false);
@@ -90,7 +90,7 @@ export default function History() {
   };
   
   // Extract struggle text from message
-  const extractStruggle = (message: string, entry: EncouragementEntry): string => {
+  const extractStruggle = (message: string): string => {
     console.log("Extracting struggle from message:", message);
     
     // Try to extract from "Struggle: [text]" format
@@ -105,8 +105,8 @@ export default function History() {
     }
     
     // For older entries or different formats, check if we have an explicit struggle field
-    if (entry.struggle && entry.struggle !== entry.message) {
-      return entry.struggle;
+    if (message && message.includes('struggle')) {
+      return message.split('struggle:')[1].trim();
     }
     
     // For older entries (pre-format change), just return "Sexual temptation" or other generic struggle
@@ -126,7 +126,7 @@ export default function History() {
   };
   
   // Extract encouragement text from message
-  const extractEncouragement = (message: string, entry: EncouragementEntry): string => {
+  const extractEncouragement = (message: string): string => {
     console.log("Extracting encouragement from message:", message);
     
     // New format with "Encouragement:" label
@@ -221,7 +221,7 @@ export default function History() {
                     <div>
                       <h4 className="text-sm font-medium gold-text uppercase tracking-wider mb-2">Your Struggle</h4>
                       <p className="gold-card p-3 rounded-lg gold-text">
-                        {extractStruggle(entry.message, entry) || "What you were struggling with"}
+                        {extractStruggle(entry.message) || "What you were struggling with"}
                       </p>
                     </div>
                     
@@ -235,7 +235,7 @@ export default function History() {
                     <div>
                       <h4 className="text-sm font-medium gold-text uppercase tracking-wider mb-2">Encouragement</h4>
                       <p className="gold-card p-3 rounded-lg gold-text">
-                        {extractEncouragement(entry.message, entry) || "Words of encouragement"}
+                        {extractEncouragement(entry.message) || "Words of encouragement"}
                       </p>
                     </div>
                     

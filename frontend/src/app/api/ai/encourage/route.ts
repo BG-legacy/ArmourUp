@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     
     // Get token from headers or cookies
     const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.split(' ')[1] || cookies().get('accessToken')?.value;
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     console.log("Token available:", !!token);
     
     if (!token) {

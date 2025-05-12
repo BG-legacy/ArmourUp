@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   try {
     // Get token from headers or cookies
     const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.split(' ')[1] || cookies().get('accessToken')?.value;
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
       try {
         const errorData = JSON.parse(errorText);
         errorMessage = errorData.error || 'Failed to fetch journal entries';
-      } catch (e) {
+      } catch {
         errorMessage = 'Failed to fetch journal entries';
       }
       

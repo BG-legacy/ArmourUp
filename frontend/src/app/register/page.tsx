@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 
 interface FormData {
@@ -23,7 +22,6 @@ interface FormErrors {
 }
 
 export default function Register() {
-  const router = useRouter();
   const { register: registerUser, isLoading: authLoading } = useAuth();
   
   const [formData, setFormData] = useState<FormData>({
@@ -144,7 +142,7 @@ export default function Register() {
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl font-bold gold-text">Join Our Community</h1>
           <p className="mt-2 text-sm gold-text">
-            "Put on the full armor of God, so that you can take your stand against the devil's schemes." — Ephesians 6:11
+            &ldquo;Put on the full armor of God, so that you can take your stand against the devil&apos;s schemes.&rdquo; — Ephesians 6:11
           </p>
         </div>
 

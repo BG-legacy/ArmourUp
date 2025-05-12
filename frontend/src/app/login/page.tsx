@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 
 interface FormData {
@@ -18,7 +17,6 @@ interface FormErrors {
 }
 
 export default function Login() {
-  const router = useRouter();
   const { login, isLoading: authLoading } = useAuth();
   
   const [formData, setFormData] = useState<FormData>({
@@ -111,7 +109,7 @@ export default function Login() {
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl font-bold gold-text">Welcome Back</h1>
           <p className="mt-2 text-sm gold-text">
-            "Be strong in the Lord and in his mighty power." — Ephesians 6:10
+            &ldquo;Be strong in the Lord and in his mighty power.&rdquo; — Ephesians 6:10
           </p>
         </div>
 

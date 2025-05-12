@@ -34,7 +34,7 @@ const TypewriterText = ({ text, delay = 30 }: TypewriterTextProps) => {
 };
 
 export default function Encourage() {
-  const { user, isLoading, isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated } = useAuth();
   const router = useRouter();
   const [struggle, setStruggle] = useState("");
   const [encouragement, setEncouragement] = useState<EncouragementResponse | null>(null);

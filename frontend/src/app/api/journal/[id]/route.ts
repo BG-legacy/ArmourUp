@@ -3,15 +3,14 @@ import { cookies } from 'next/headers';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = params.id;
+    const { id } = await params;
     
     // Get token from headers or cookies
     const authHeader = request.headers.get('Authorization');
-    const cookieStore = await cookies();
-    const token = authHeader?.split(' ')[1] || cookieStore.get('accessToken')?.value;
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json(
@@ -37,7 +36,7 @@ export async function GET(
       try {
         const errorData = JSON.parse(errorText);
         errorMessage = errorData.error || `Failed to fetch journal entry with ID ${id}`;
-      } catch (e) {
+      } catch {
         errorMessage = `Failed to fetch journal entry with ID ${id}`;
       }
       
