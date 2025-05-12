@@ -96,4 +96,28 @@ func (c *Controller) DeleteUser(ctx *gin.Context) {
 	}
 
 	ctx.Status(http.StatusNoContent)
-} 
+}
+
+func (c *Controller) GetCurrentUser(ctx *gin.Context) {
+	// Get user ID from context (set by auth middleware)
+	userID, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	// Convert to uint
+	id, ok := userID.(uint)
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "invalid user ID format"})
+		return
+	}
+
+	user, err := c.service.GetUserByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, user)
+}

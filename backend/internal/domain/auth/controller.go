@@ -2,13 +2,15 @@ package auth
 
 import (
 	"net/http"
+	"strings"
 	"time"
+
+	"armourup/internal/domain/user"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
-	"armourup/internal/domain/user"
 )
 
 type Controller struct {
@@ -39,11 +41,18 @@ func (c *Controller) Register(ctx *gin.Context) {
 
 	// Create user
 	user := &user.User{
+		Username:     creds.Username,
 		Email:        creds.Email,
 		PasswordHash: hashedPassword,
 	}
 
 	if err := c.userSvc.CreateUser(user); err != nil {
+		// Check for specific error message for duplicate user
+		if strings.Contains(err.Error(), "user with this email already exists") {
+			ctx.JSON(http.StatusConflict, gin.H{"error": "Email already registered. Please use a different email address or log in."})
+			return
+		}
+		// For other errors, return 500
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -64,7 +73,7 @@ func (c *Controller) Register(ctx *gin.Context) {
 }
 
 func (c *Controller) Login(ctx *gin.Context) {
-	var creds UserCredentials
+	var creds LoginCredentials
 	if err := ctx.ShouldBindJSON(&creds); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -170,4 +179,27 @@ func (c *Controller) generateTokens(userID uint, email, role string) (string, st
 	}
 
 	return accessTokenString, refreshTokenString, nil
-} 
+}
+
+func (c *Controller) GetCurrentUser(ctx *gin.Context) {
+	// Get user ID from context (set by AuthMiddleware)
+	userID, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
+		return
+	}
+
+	// Get user from database
+	user, err := c.userSvc.GetUserByID(userID.(uint))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
+		return
+	}
+
+	// Return user data (excluding sensitive information)
+	ctx.JSON(http.StatusOK, gin.H{
+		"id":       user.ID,
+		"username": user.Username,
+		"email":    user.Email,
+	})
+}

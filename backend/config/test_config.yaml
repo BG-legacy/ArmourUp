@@ -1,0 +1,20 @@
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  name: armourup_test
+  sslmode: disable
+
+server:
+  port: 8081
+
+openai:
+  api_key: "test-key"
+  model: "gpt-3.5-turbo"
+  max_tokens: 150
+  temperature: 0.7
+
+jwt:
+  secret: "test-secret-key"
+  expiration: 24h 

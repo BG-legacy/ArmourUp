@@ -1,46 +1,63 @@
+// Package database provides database connection and configuration functionality for the ArmourUp API.
 package database
 
+// This file is used to connect to the database
 import (
 	"fmt"
 	"log"
 	"time"
 
+	"armourup/internal/domain/encouragement"
+	"armourup/internal/domain/journal"
+	"armourup/internal/domain/user"
+
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"armourup/internal/domain/user"
-	"armourup/internal/domain/encouragement"
-	"armourup/internal/domain/journal"
 )
 
+// DB is the global database connection instance.
 var DB *gorm.DB
 
+// Config holds the database connection configuration parameters.
 type Config struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	DBName   string
-	SSLMode  string
+	Host     string // Database host address
+	Port     string // Database port number
+	User     string // Database username
+	Password string // Database password
+	DBName   string // Database name
+	SSLMode  string // SSL mode for the connection
 }
 
+// NewConfig creates a new database configuration using values from the application's configuration.
+// The configuration is loaded from environment variables or config files via Viper.
 func NewConfig() *Config {
 	return &Config{
-		Host:     viper.GetString("database.host"),
-		Port:     viper.GetString("database.port"),
-		User:     viper.GetString("database.user"),
-		Password: viper.GetString("database.password"),
-		DBName:   viper.GetString("database.dbname"),
-		SSLMode:  "disable", // Change to "require" in production
+		Host:     viper.GetString("database.host"),     //this is the host for the database
+		Port:     viper.GetString("database.port"),     //this is the port for the database
+		User:     viper.GetString("database.user"),     //this is the user for the database
+		Password: viper.GetString("database.password"), //this is the password for the database
+		DBName:   viper.GetString("database.dbname"),   //this is the name of the database
+		SSLMode:  "disable",                            // TODO: Change to "require" in production
 	}
 }
 
-func (c *Config) DSN() string {
+// DSN returns the Data Source Name (connection string) for the database.
+// The string is formatted according to PostgreSQL's connection string format.
+func (c *Config) DSN() string { //this is the connect string for the database
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		c.Host, c.Port, c.User, c.Password, c.DBName, c.SSLMode)
 }
 
+// InitDB initializes the database connection and configures connection pooling.
+// It performs the following operations:
+// 1. Creates a new database configuration
+// 2. Sets up GORM logger with appropriate settings
+// 3. Establishes the database connection
+// 4. Configures connection pooling parameters
+// 5. Tests the connection
+// Returns the configured GORM database instance or an error if initialization fails.
 func InitDB() (*gorm.DB, error) {
 	config := NewConfig()
 
@@ -70,9 +87,9 @@ func InitDB() (*gorm.DB, error) {
 	}
 
 	// Set connection pool settings
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxOpenConns(100)
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetMaxIdleConns(10)           // Maximum number of idle connections
+	sqlDB.SetMaxOpenConns(100)          // Maximum number of open connections
+	sqlDB.SetConnMaxLifetime(time.Hour) // Maximum lifetime of a connection
 
 	// Test the connection
 	if err := sqlDB.Ping(); err != nil {
@@ -83,11 +100,16 @@ func InitDB() (*gorm.DB, error) {
 	return db, nil
 }
 
-// AutoMigrate creates database tables
+// AutoMigrate automatically creates or updates database tables based on the provided models.
+// It handles the following models:
+// - User
+// - Encouragement
+// - JournalEntry
+// Returns an error if migration fails.
 func AutoMigrate(db *gorm.DB) error {
 	return db.AutoMigrate(
 		&user.User{},
 		&encouragement.Encouragement{},
 		&journal.JournalEntry{},
 	)
-} 
+}

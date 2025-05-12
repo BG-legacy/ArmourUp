@@ -5,13 +5,15 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
+
+	"armourup/internal/config"
+	"armourup/internal/server"
+	"armourup/test/testutils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"armourup/internal/config"
-	"armourup/internal/database"
-	"armourup/internal/server"
 )
 
 func TestAuthEndpoints(t *testing.T) {
@@ -19,35 +21,31 @@ func TestAuthEndpoints(t *testing.T) {
 	SetupTestConfig(t)
 	defer TeardownTestConfig(t)
 
+	// Set OpenAI API key for testing
+	os.Setenv("OPENAI_API_KEY", "test-key")
+
 	// Load configuration
 	err := config.LoadConfig()
 	assert.NoError(t, err)
 
 	// Initialize test database
-	db, err := database.InitDB()
-	if err != nil {
-		t.Skip("Skipping test due to database connection error:", err)
-		return
-	}
+	db := testutils.SetupTestDB(t)
+	defer testutils.TeardownTestDB(t, db)
 
-	// Get the underlying *sql.DB
-	sqlDB, err := db.DB()
-	if err != nil {
-		t.Skip("Skipping test due to database error:", err)
-		return
-	}
-	defer sqlDB.Close()
+	// Clean up any existing users before running tests
+	db.Exec("DELETE FROM users")
 
 	// Create router
 	router := gin.Default()
 
-	// Initialize server
-	server.NewServer(router, db)
+	// Initialize server and set up routes
+	server.SetupRoutes(router, db)
 
 	// Test registration
 	t.Run("Registration", func(t *testing.T) {
 		// Test valid registration
 		registerData := map[string]string{
+			"username": "testuser",
 			"email":    "test@example.com",
 			"password": "password123",
 		}
@@ -78,6 +76,7 @@ func TestAuthEndpoints(t *testing.T) {
 	t.Run("Login", func(t *testing.T) {
 		// Test valid login
 		loginData := map[string]string{
+			"username": "testuser",
 			"email":    "test@example.com",
 			"password": "password123",
 		}
@@ -97,6 +96,7 @@ func TestAuthEndpoints(t *testing.T) {
 
 		// Test invalid login
 		invalidLoginData := map[string]string{
+			"username": "testuser",
 			"email":    "test@example.com",
 			"password": "wrongpassword",
 		}
@@ -114,6 +114,7 @@ func TestAuthEndpoints(t *testing.T) {
 	t.Run("Token Refresh", func(t *testing.T) {
 		// First login to get tokens
 		loginData := map[string]string{
+			"username": "testuser",
 			"email":    "test@example.com",
 			"password": "password123",
 		}
@@ -164,6 +165,7 @@ func TestAuthEndpoints(t *testing.T) {
 	t.Run("Protected Routes", func(t *testing.T) {
 		// First login to get token
 		loginData := map[string]string{
+			"username": "testuser",
 			"email":    "test@example.com",
 			"password": "password123",
 		}
@@ -201,4 +203,4 @@ func TestAuthEndpoints(t *testing.T) {
 
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
 	})
-} 
+}

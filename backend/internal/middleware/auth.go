@@ -1,3 +1,4 @@
+// Package middleware provides HTTP middleware functions for the ArmourUp API.
 package middleware
 
 import (
@@ -5,15 +6,23 @@ import (
 	"strings"
 	"time"
 
+	"armourup/internal/domain/auth"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"armourup/internal/domain/auth"
 	"github.com/spf13/viper"
 )
 
-var jwtKey = []byte("your-secret-key") // In production, use environment variable
+// jwtKey is the secret key used for signing JWT tokens.
+// TODO: In production, this should be loaded from environment variables.
+var jwtKey = []byte("your-secret-key")
 
-// AuthMiddleware is a middleware that checks for a valid JWT token
+// AuthMiddleware is a Gin middleware that validates JWT tokens in the Authorization header.
+// It performs the following checks:
+// 1. Verifies the presence of the Authorization header
+// 2. Validates the "Bearer" token format
+// 3. Parses and verifies the JWT token
+// 4. Sets user information in the request context
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get the Authorization header
@@ -52,7 +61,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// Set the user ID in the context
-		c.Set("user_id", claims.UserID)
+		c.Set("userID", claims.UserID)
 		c.Set("user_email", claims.Email)
 		c.Set("user_role", claims.Role)
 
@@ -60,6 +69,9 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
+// GenerateToken creates a new JWT token pair (access token and refresh token) for a user.
+// The access token expires in 24 hours, while the refresh token expires in 7 days.
+// Returns a TokenResponse containing both tokens and their metadata.
 func GenerateToken(userID uint, email, role string) (*auth.TokenResponse, error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &auth.Claims{
@@ -90,4 +102,4 @@ func GenerateToken(userID uint, email, role string) (*auth.TokenResponse, error)
 		TokenType:    "Bearer",
 		ExpiresIn:    expirationTime.Unix(),
 	}, nil
-} 
+}

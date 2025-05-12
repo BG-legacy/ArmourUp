@@ -94,4 +94,39 @@ func (c *Controller) DeleteEncouragement(ctx *gin.Context) {
 	}
 
 	ctx.Status(http.StatusNoContent)
-} 
+}
+
+type LogStruggleRequest struct {
+	Struggle string `json:"struggle" binding:"required"`
+	Verse    string `json:"verse" binding:"required"`
+	Message  string `json:"message" binding:"required"`
+}
+
+func (c *Controller) LogStruggle(ctx *gin.Context) {
+	var req LogStruggleRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Get user ID from context (set by auth middleware)
+	userID, exists := ctx.Get("userID")
+	if !exists {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	encouragement := &Encouragement{
+		UserID:  userID.(uint),
+		Message: req.Message,
+		Verse:   req.Verse,
+		Type:    "struggle",
+	}
+
+	if err := c.service.CreateEncouragement(encouragement); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, encouragement)
+}
