@@ -22,7 +22,7 @@ import (
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Allow both local development and production origins
-		allowedOrigins := []string{"http://localhost:3000", "http://127.0.0.1:3000"}
+		allowedOrigins := []string{"http://localhost:3000", "http://127.0.0.1:3000", "https://armourup.onrender.com", "https://armour-up.vercel.app"}
 
 		origin := c.Request.Header.Get("Origin")
 
