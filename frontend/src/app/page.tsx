@@ -1,5 +1,5 @@
 /**
- * @file Landing page component for ArmourUp
+ * @file Landing page component for ArmorUp
  * @description The main landing page featuring an animated hero section with text reveal effects,
  * background image, and a call-to-action button.
  */
@@ -21,7 +21,7 @@ export default function LandingPage() {
   const [charIndex, setCharIndex] = useState(0);
   
   // Static content
-  const title = "ArmourUp";
+  const title = "ArmorUp";
   const subtitle = "Put on the Full Armor of God";
 
   /**

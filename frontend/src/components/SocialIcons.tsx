@@ -1,5 +1,5 @@
 /**
- * @file SocialIcons component for ArmourUp
+ * @file SocialIcons component for ArmorUp
  * @description A component that displays social media icons with hover and tap animations.
  * Uses Framer Motion for smooth interactive effects and SVG icons for crisp rendering.
  */

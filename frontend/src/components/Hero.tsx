@@ -1,5 +1,5 @@
 /**
- * @file Hero component for ArmourUp
+ * @file Hero component for ArmorUp
  * @description A hero section featuring a two-column layout with animated text content
  * and an interactive image display. Uses Framer Motion for smooth animations.
  */
@@ -30,7 +30,7 @@ const Hero = () => {
           </h1>
           <p className="text-lg md:text-xl text-gray-600 tracking-wide">
             Stand firm against life's challenges through scripture, prayer, and community. 
-            ArmourUp helps you strengthen your faith daily.
+            ArmorUp helps you strengthen your faith daily.
           </p>
           <div>
             <motion.button 

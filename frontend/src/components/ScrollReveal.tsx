@@ -1,5 +1,5 @@
 /**
- * @file ScrollReveal component for ArmourUp
+ * @file ScrollReveal component for ArmorUp
  * @description A reusable component that animates elements as they come into view.
  * Uses Framer Motion for smooth scroll-based animations with configurable directions and timing.
  */

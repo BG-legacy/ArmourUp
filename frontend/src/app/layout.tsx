@@ -1,5 +1,5 @@
 /**
- * @file Root layout component for the ArmourUp application
+ * @file Root layout component for the ArmorUp application
  * @description This is the main layout wrapper that provides the base structure for all pages,
  * including font configuration, metadata, and authentication context.
  */
@@ -26,8 +26,8 @@ const inter = Inter({
  * @type {Metadata}
  */
 export const metadata: Metadata = {
-  title: "ArmourUp - Put on the Full Armor of God",
-  description: "ArmourUp helps you strengthen your faith and stand firm against life's challenges through scripture, prayer, and community.",
+  title: "ArmorUp - Put on the Full Armor of God",
+  description: "ArmorUp helps you strengthen your faith and stand firm against life's challenges through scripture, prayer, and community.",
 };
 
 /**

@@ -1,5 +1,5 @@
 /**
- * @file Navigation bar component for ArmourUp
+ * @file Navigation bar component for ArmorUp
  * @description A responsive navigation bar with scroll-based animations and interactive hover effects.
  * Uses Framer Motion for smooth animations and transitions.
  */
