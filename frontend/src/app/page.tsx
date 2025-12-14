@@ -1,164 +1,161 @@
 /**
- * @file Landing page component for ArmorUp
- * @description The main landing page featuring an animated hero section with text reveal effects,
- * background image, and a call-to-action button.
+ * @file Landing page component for ArmourUp
+ * @description Modern landing page with dark aesthetic, inspired by tech/design agency style
  */
 
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 /**
- * Landing page component with animated text reveal and interactive elements
+ * Landing page component with modern tech aesthetic
  * @component
- * @returns {JSX.Element} The landing page with animated content
+ * @returns {JSX.Element} The landing page with dark theme and animated content
  */
 export default function LandingPage() {
-  // State for controlling animation visibility and text reveal
-  const [visible, setVisible] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
-  
-  // Static content
-  const title = "ArmorUp";
-  const subtitle = "Put on the Full Armor of God";
+  const [glitchActive, setGlitchActive] = useState(false);
 
-  /**
-   * Effect hook for handling text reveal animation
-   * Triggers on component mount and manages character-by-character reveal
-   */
   useEffect(() => {
-    setVisible(true);
-    
-    // Text reveal animation with interval
+    // Random glitch effect
     const interval = setInterval(() => {
-      setCharIndex(prev => {
-        if (prev < title.length + subtitle.length) {
-          return prev + 1;
-        }
-        clearInterval(interval);
-        return prev;
-      });
-    }, 150);
-    
+      setGlitchActive(true);
+      setTimeout(() => setGlitchActive(false), 200);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full">
-      {/* Background Image with leather texture */}
-      <Image
-        src="/images/black leather texture.jpeg"
-        alt="Leather texture background"
-        fill
-        className="object-cover"
-        priority
+    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+      {/* Textured dark background with noise effect */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.02) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.02) 0%, transparent 50%), #000000',
+        }}
       />
       
-      {/* Main content overlay with semi-transparent background */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center bg-black/40">
-        {/* Animated title with character reveal effect */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-8 text-center relative">
-          {title.split('').map((char, index) => (
-            <span 
-              key={index}
-              className={`inline-block transition-all duration-700 transform`}
-              style={{ 
-                color: charIndex > index ? '#DAA520' : 'transparent',
-                textShadow: charIndex > index ? '0 0 20px rgba(218, 165, 32, 0.8), 0 0 30px rgba(218, 165, 32, 0.4)' : 'none',
-                transform: charIndex > index ? 'translateY(0) rotate(0deg)' : 'translateY(-50px) rotate(20deg)',
-                opacity: charIndex > index ? 1 : 0,
-                filter: charIndex > index ? 'blur(0px)' : 'blur(10px)',
-                transitionDelay: `${index * 120}ms`,
-                WebkitBackgroundClip: 'text',
-                position: 'relative',
-                fontWeight: 900,
-                letterSpacing: '2px'
-              }}
-            >
-              {char}
-              {/* Glowing underline effect for revealed characters */}
-              {charIndex > index && (
-                <span 
-                  className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"
-                  style={{
-                    animation: 'glow 2s infinite',
-                    opacity: 0.7
-                  }}
-                ></span>
-              )}
-            </span>
-          ))}
-        </h1>
-        
-        {/* Animated subtitle with word-by-word reveal */}
-        <p className="text-xl md:text-2xl mb-12 text-center max-w-2xl px-4">
-          {subtitle.split(' ').map((word, wordIndex) => (
-            <span key={wordIndex} className="inline-block mr-2">
-              {word.split('').map((char, charIdx) => (
-                <span
-                  key={charIdx}
-                  className="inline-block"
-                  style={{
-                    color: charIndex > title.length + wordIndex * 2 + charIdx ? '#FFD700' : 'transparent',
-                    textShadow: charIndex > title.length + wordIndex * 2 + charIdx ? '0 0 15px rgba(255, 215, 0, 0.7), 0 0 25px rgba(255, 215, 0, 0.4)' : 'none',
-                    transition: 'all 0.3s ease',
-                    transform: charIndex > title.length + wordIndex * 2 + charIdx ? 'translateY(0)' : 'translateY(20px)',
-                    opacity: charIndex > title.length + wordIndex * 2 + charIdx ? 1 : 0,
-                    display: 'inline-block',
-                    letterSpacing: '1px',
-                    fontWeight: 600
-                  }}
-                >
-                  {char}
-                </span>
-              ))}
-            </span>
-          ))}
-        </p>
-        
-        {/* Call-to-action button with hover effects and animations */}
-        <div 
-          className={`transition-all duration-1000 delay-1000 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
-          style={{
-            animation: visible ? 'float 3s ease-in-out infinite' : 'none'
-          }}
-        >
-          <Link 
-            href="/login" 
-            className="px-8 py-4 text-xl font-semibold rounded-lg relative overflow-hidden group
-                     transition-all duration-300 transform hover:scale-105
-                     shadow-lg hover:shadow-2xl"
-            style={{ 
-              background: 'transparent',
-              border: '2px solid #DAA520',
-              boxShadow: '0 0 20px rgba(218, 165, 32, 0.4)'
-            }}
-          >
-            <span 
-              className="relative z-10 group-hover:text-white transition-colors duration-300"
-              style={{ color: '#DAA520' }}
-            >
-              Start Your Journey
-            </span>
-            <span className="absolute inset-0 bg-gradient-to-r from-yellow-600 to-yellow-400 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
-          </Link>
-        </div>
+      {/* Noise texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.4]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px 200px',
+        }}
+      />
 
-        {/* CSS animations for glowing and floating effects */}
-        <style jsx>{`
-          @keyframes glow {
-            0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
-            50% { opacity: 0.8; transform: scaleX(1.2); }
-          }
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Header Navigation */}
+        <header className="w-full px-8 md:px-16 py-8 flex items-center justify-between">
+          {/* Left - Navigation item with corner bracket */}
+          <div className="flex items-center gap-2">
+            <span className="text-gray-400 text-sm tracking-wider">┌</span>
+            <Link href="/dashboard" className="text-gray-400 hover:text-gray-300 text-sm tracking-wider transition-colors">
+              PLANS
+            </Link>
+          </div>
+
+          {/* Center - Logo */}
+          <div className="flex flex-col items-center">
+            <h1 className="text-white font-bold text-2xl md:text-3xl tracking-tight" style={{ fontFamily: 'sans-serif', letterSpacing: '0.1em' }}>
+              ARMOURUP
+            </h1>
+            <p className="text-gray-400 text-xs md:text-sm tracking-widest mt-1">
+              SPIRITUAL ARMOR
+            </p>
+          </div>
+
+          {/* Right - Menu with corner bracket */}
+          <div className="flex items-center gap-2">
+            <Link href="/dashboard" className="text-gray-400 hover:text-gray-300 text-sm tracking-wider transition-colors">
+              MENU
+            </Link>
+            <span className="text-gray-400 text-sm tracking-wider">┘</span>
+          </div>
+        </header>
+
+        {/* Main Content - Centered */}
+        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 pb-20">
+          {/* Large Headline with multi-color text */}
+          <div className={`text-center mb-8 relative ${glitchActive ? 'glitch' : ''}`}>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4 relative z-10">
+              <span className="text-[#a0aec0] block">STREAMLINED</span>
+              <span className="text-[#f97316] block mt-2">ARMOR</span>
+              <span className="text-[#a0aec0] block mt-2">SPIRITUAL</span>
+            </h2>
+          </div>
           
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-          }
-        `}</style>
+          {/* Scanline effect overlay */}
+          <div 
+            className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
+            style={{
+              background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
+            }}
+          />
+
+          {/* Tagline */}
+          <div className="text-center mb-12 space-y-2">
+            <p className="text-gray-400 text-sm md:text-base tracking-wide">
+              Stand firm against life's challenges. Daily spiritual protection.
+            </p>
+            <p className="text-gray-400 text-sm md:text-base tracking-wide">
+              One simple commitment.
+            </p>
+          </div>
+
+          {/* CTA Button */}
+          <Link 
+            href="/register"
+            className="px-8 py-4 bg-gray-100 text-gray-800 text-sm font-medium tracking-wider uppercase rounded-sm hover:bg-gray-200 transition-colors border border-gray-300"
+          >
+            GET STARTED
+          </Link>
+        </main>
       </div>
+
+      {/* Glitch animation styles */}
+      <style jsx>{`
+        @keyframes glitch {
+          0% {
+            transform: translate(0);
+            text-shadow: 0 0 0 transparent;
+          }
+          20% {
+            transform: translate(-1px, 1px);
+            text-shadow: -1px 1px 0 rgba(255, 0, 0, 0.3);
+          }
+          40% {
+            transform: translate(-1px, -1px);
+            text-shadow: -1px -1px 0 rgba(0, 255, 255, 0.3);
+          }
+          60% {
+            transform: translate(1px, 1px);
+            text-shadow: 1px 1px 0 rgba(255, 0, 255, 0.3);
+          }
+          80% {
+            transform: translate(1px, -1px);
+            text-shadow: 1px -1px 0 rgba(0, 255, 255, 0.3);
+          }
+          100% {
+            transform: translate(0);
+            text-shadow: 0 0 0 transparent;
+          }
+        }
+
+        .glitch {
+          animation: glitch 0.15s steps(2, end) infinite;
+        }
+
+        /* Scanline effect */
+        @keyframes scanline {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(100vh);
+          }
+        }
+      `}</style>
     </div>
   );
-} 
+}
