@@ -14,35 +14,47 @@ import { useEffect, useState } from 'react';
  * @returns {JSX.Element} The landing page with dark theme and animated content
  */
 export default function LandingPage() {
-  const [glitchActive, setGlitchActive] = useState(false);
+  const [displayText, setDisplayText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
-    // Random glitch effect
-    const interval = setInterval(() => {
-      setGlitchActive(true);
-      setTimeout(() => setGlitchActive(false), 200);
-    }, 3000);
-    return () => clearInterval(interval);
+    // Typewriter animation to form "ARMOR UP"
+    const fullText = 'ARMOR UP';
+    let index = 0;
+    
+    const typewriterInterval = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(typewriterInterval);
+        // Hide cursor after typing is complete
+        setTimeout(() => setShowCursor(false), 500);
+      }
+    }, 150);
+
+    return () => clearInterval(typewriterInterval);
   }, []);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
-      {/* Textured dark background with noise effect */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.02) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.02) 0%, transparent 50%), #000000',
-        }}
-      />
-      
-      {/* Noise texture overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.4]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          backgroundSize: '200px 200px',
-        }}
-      />
+      {/* Animated Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="animated-orb orb-1"></div>
+        <div className="animated-orb orb-2"></div>
+        <div className="animated-orb orb-3"></div>
+        
+        {/* Animated grid pattern */}
+        <div className="animated-grid"></div>
+        
+        {/* Floating particles */}
+        <div className="particles">
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={`particle particle-${i + 1}`}></div>
+          ))}
+        </div>
+      </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header Navigation */}
@@ -53,16 +65,6 @@ export default function LandingPage() {
             <Link href="/dashboard" className="text-gray-400 hover:text-gray-300 text-sm tracking-wider transition-colors">
               PLANS
             </Link>
-          </div>
-
-          {/* Center - Logo */}
-          <div className="flex flex-col items-center">
-            <h1 className="text-white font-bold text-2xl md:text-3xl tracking-tight" style={{ fontFamily: 'sans-serif', letterSpacing: '0.1em' }}>
-              ARMOURUP
-            </h1>
-            <p className="text-gray-400 text-xs md:text-sm tracking-widest mt-1">
-              SPIRITUAL ARMOR
-            </p>
           </div>
 
           {/* Right - Menu with corner bracket */}
@@ -76,12 +78,13 @@ export default function LandingPage() {
 
         {/* Main Content - Centered */}
         <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 pb-20">
-          {/* Large Headline with multi-color text */}
-          <div className={`text-center mb-8 relative ${glitchActive ? 'glitch' : ''}`}>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4 relative z-10">
-              <span className="text-[#a0aec0] block">STREAMLINED</span>
-              <span className="text-[#f97316] block mt-2">ARMOR</span>
-              <span className="text-[#a0aec0] block mt-2">SPIRITUAL</span>
+          {/* ARMOR UP - Typewriter headline */}
+          <div className="text-center mb-12 relative">
+            <h2 className="armor-up-headline">
+              <span className="armor-up-text">
+                {displayText}
+                {showCursor && <span className="typewriter-cursor">|</span>}
+              </span>
             </h2>
           </div>
           
@@ -93,57 +96,59 @@ export default function LandingPage() {
             }}
           />
 
-          {/* Tagline */}
-          <div className="text-center mb-12 space-y-2">
-            <p className="text-gray-400 text-sm md:text-base tracking-wide">
-              Stand firm against life's challenges. Daily spiritual protection.
-            </p>
-            <p className="text-gray-400 text-sm md:text-base tracking-wide">
-              One simple commitment.
-            </p>
-          </div>
-
           {/* CTA Button */}
           <Link 
             href="/register"
-            className="px-8 py-4 bg-gray-100 text-gray-800 text-sm font-medium tracking-wider uppercase rounded-sm hover:bg-gray-200 transition-colors border border-gray-300"
+            className="px-8 py-4 bg-gray-100 text-gray-800 text-sm font-medium tracking-wider uppercase rounded-sm hover:bg-gray-200 transition-colors border border-gray-300 tactical-button"
           >
             GET STARTED
           </Link>
         </main>
       </div>
 
-      {/* Glitch animation styles */}
+      {/* Enhanced ARMOR UP styles */}
       <style jsx>{`
-        @keyframes glitch {
+        .armor-up-headline {
+          font-size: clamp(4rem, 12vw, 8rem);
+          font-weight: 900;
+          letter-spacing: 0.05em;
+          line-height: 1;
+        }
+
+        .armor-up-text {
+          color: #f97316;
+          display: inline-block;
+          position: relative;
+        }
+
+        .typewriter-cursor {
+          color: #f97316;
+          animation: blink 1s infinite;
+          margin-left: 4px;
+          font-weight: 300;
+        }
+
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+
+        /* Button tactical reveal */
+        @keyframes buttonReveal {
           0% {
-            transform: translate(0);
-            text-shadow: 0 0 0 transparent;
-          }
-          20% {
-            transform: translate(-1px, 1px);
-            text-shadow: -1px 1px 0 rgba(255, 0, 0, 0.3);
-          }
-          40% {
-            transform: translate(-1px, -1px);
-            text-shadow: -1px -1px 0 rgba(0, 255, 255, 0.3);
-          }
-          60% {
-            transform: translate(1px, 1px);
-            text-shadow: 1px 1px 0 rgba(255, 0, 255, 0.3);
-          }
-          80% {
-            transform: translate(1px, -1px);
-            text-shadow: 1px -1px 0 rgba(0, 255, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
           }
           100% {
-            transform: translate(0);
-            text-shadow: 0 0 0 transparent;
+            opacity: 1;
+            transform: scale(1) translateY(0);
           }
         }
 
-        .glitch {
-          animation: glitch 0.15s steps(2, end) infinite;
+        .tactical-button {
+          animation: buttonReveal 0.8s ease-out forwards;
+          animation-delay: 0.8s;
+          opacity: 0;
         }
 
         /* Scanline effect */
@@ -153,6 +158,133 @@ export default function LandingPage() {
           }
           100% {
             transform: translateY(100vh);
+          }
+        }
+
+        /* Animated Gradient Orbs */
+        .animated-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.3;
+          animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(249, 115, 22, 0.8) 0%, transparent 70%);
+          top: -200px;
+          left: -200px;
+          animation-delay: 0s;
+        }
+
+        .orb-2 {
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+          bottom: -150px;
+          right: -150px;
+          animation-delay: -7s;
+        }
+
+        .orb-3 {
+          width: 350px;
+          height: 350px;
+          background: radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, transparent 70%);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation-delay: -14s;
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+          }
+          33% {
+            transform: translate(50px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-30px, 30px) scale(0.9);
+          }
+        }
+
+        /* Animated Grid */
+        .animated-grid {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+          background-size: 50px 50px;
+          animation: gridMove 20s linear infinite;
+          opacity: 0.5;
+        }
+
+        @keyframes gridMove {
+          0% {
+            transform: translate(0, 0);
+          }
+          100% {
+            transform: translate(50px, 50px);
+          }
+        }
+
+        /* Floating Particles */
+        .particles {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        .particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: rgba(249, 115, 22, 0.6);
+          border-radius: 50%;
+          box-shadow: 0 0 6px rgba(249, 115, 22, 0.8);
+          animation: particleFloat 15s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 12s; }
+        .particle:nth-child(2) { left: 30%; top: 10%; animation-delay: 1s; animation-duration: 18s; }
+        .particle:nth-child(3) { left: 50%; top: 30%; animation-delay: 2s; animation-duration: 15s; }
+        .particle:nth-child(4) { left: 70%; top: 15%; animation-delay: 0.5s; animation-duration: 20s; }
+        .particle:nth-child(5) { left: 20%; top: 60%; animation-delay: 1.5s; animation-duration: 14s; }
+        .particle:nth-child(6) { left: 80%; top: 50%; animation-delay: 2.5s; animation-duration: 16s; }
+        .particle:nth-child(7) { left: 15%; top: 80%; animation-delay: 0.8s; animation-duration: 19s; }
+        .particle:nth-child(8) { left: 60%; top: 70%; animation-delay: 1.2s; animation-duration: 13s; }
+        .particle:nth-child(9) { left: 40%; top: 90%; animation-delay: 2.2s; animation-duration: 17s; }
+        .particle:nth-child(10) { left: 90%; top: 25%; animation-delay: 0.3s; animation-duration: 21s; }
+        .particle:nth-child(11) { left: 5%; top: 40%; animation-delay: 1.8s; animation-duration: 14s; }
+        .particle:nth-child(12) { left: 85%; top: 75%; animation-delay: 0.7s; animation-duration: 18s; }
+        .particle:nth-child(13) { left: 25%; top: 5%; animation-delay: 2.3s; animation-duration: 16s; }
+        .particle:nth-child(14) { left: 55%; top: 55%; animation-delay: 1.1s; animation-duration: 15s; }
+        .particle:nth-child(15) { left: 75%; top: 85%; animation-delay: 0.6s; animation-duration: 20s; }
+        .particle:nth-child(16) { left: 35%; top: 45%; animation-delay: 1.9s; animation-duration: 13s; }
+        .particle:nth-child(17) { left: 65%; top: 35%; animation-delay: 0.4s; animation-duration: 17s; }
+        .particle:nth-child(18) { left: 45%; top: 65%; animation-delay: 2.1s; animation-duration: 19s; }
+        .particle:nth-child(19) { left: 95%; top: 60%; animation-delay: 1.4s; animation-duration: 14s; }
+        .particle:nth-child(20) { left: 12%; top: 35%; animation-delay: 0.9s; animation-duration: 16s; }
+
+        @keyframes particleFloat {
+          0%, 100% {
+            transform: translate(0, 0) scale(1) rotate(0deg);
+            opacity: 0.3;
+          }
+          25% {
+            transform: translate(30px, -40px) scale(1.3) rotate(90deg);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translate(-20px, 30px) scale(1.5) rotate(180deg);
+            opacity: 0.8;
+          }
+          75% {
+            transform: translate(40px, 20px) scale(1.2) rotate(270deg);
+            opacity: 0.6;
           }
         }
       `}</style>
