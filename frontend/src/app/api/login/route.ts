@@ -35,7 +35,20 @@ export async function POST(request: Request) {
       );
     }
     
-    return NextResponse.json(data);
+    // Set the access token as an HTTP-only cookie
+    const responseToSend = NextResponse.json(data);
+    
+    if (data.access_token) {
+      responseToSend.cookies.set('token', data.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        path: '/',
+      });
+    }
+    
+    return responseToSend;
   } catch (error) {
     console.error('Login API route error:', error);
     // Check if it's a network error

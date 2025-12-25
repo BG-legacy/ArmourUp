@@ -195,7 +195,7 @@ func (c *Controller) generateTokens(userID uint, email, role string) (string, st
 
 func (c *Controller) GetCurrentUser(ctx *gin.Context) {
 	// Get user ID from context (set by AuthMiddleware)
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
 		return

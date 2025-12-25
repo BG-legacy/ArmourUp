@@ -286,6 +286,57 @@ export default function Dashboard() {
               </svg>
             </div>
           </div>
+
+          {/* Mood Tracker Card */}
+          <div 
+            className="orange-card rounded-lg p-6 cursor-pointer transform hover:scale-[1.02] transition-all border-orange-500/30"
+            onClick={() => router.push('/mood-tracker')}
+          >
+            <h2 className="text-2xl font-semibold orange-text orbitron-font mb-4">Mood Tracker</h2>
+            <p className="gray-text mb-4 text-lg">
+              Track your daily emotional and spiritual well-being. Reflect on your journey and see how you&apos;re growing over time.
+            </p>
+            <div className="flex items-center gray-text hover:text-[#f97316] transition-colors">
+              <span className="font-medium text-lg">Log Today&apos;s Mood</span>
+              <svg className="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Gratitude Journal Card */}
+          <div 
+            className="orange-card rounded-lg p-6 cursor-pointer transform hover:scale-[1.02] transition-all border-orange-500/30"
+            onClick={() => router.push('/gratitude-journal')}
+          >
+            <h2 className="text-2xl font-semibold orange-text orbitron-font mb-4">Gratitude Journal</h2>
+            <p className="gray-text mb-4 text-lg">
+              Count your blessings and record daily moments of gratitude. Give thanks in all circumstances and see God&apos;s faithfulness.
+            </p>
+            <div className="flex items-center gray-text hover:text-[#f97316] transition-colors">
+              <span className="font-medium text-lg">Record Your Blessings</span>
+              <svg className="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Progress Insights Card */}
+          <div 
+            className="orange-card rounded-lg p-6 cursor-pointer transform hover:scale-[1.02] transition-all border-orange-500/30"
+            onClick={() => router.push('/progress-insights')}
+          >
+            <h2 className="text-2xl font-semibold orange-text orbitron-font mb-4">Progress Insights</h2>
+            <p className="gray-text mb-4 text-lg">
+              Get AI-generated monthly summaries of your spiritual growth. See how God is working in your life through your journey.
+            </p>
+            <div className="flex items-center gray-text hover:text-[#f97316] transition-colors">
+              <span className="font-medium text-lg">View Your Insights</span>
+              <svg className="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
 

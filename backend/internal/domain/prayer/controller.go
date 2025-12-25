@@ -18,7 +18,7 @@ func NewController(service *Service) *Controller {
 // CreatePrayerRequest handles POST /api/prayer
 func (c *Controller) CreatePrayerRequest(ctx *gin.Context) {
 	// Get user ID from context (set by auth middleware)
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -70,7 +70,7 @@ func (c *Controller) GetAllPrayerRequests(ctx *gin.Context) {
 
 // GetUserPrayerRequests handles GET /api/prayer/my-requests
 func (c *Controller) GetUserPrayerRequests(ctx *gin.Context) {
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -94,7 +94,7 @@ func (c *Controller) UpdatePrayerRequest(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -138,7 +138,7 @@ func (c *Controller) DeletePrayerRequest(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -173,7 +173,7 @@ func (c *Controller) PrayForRequest(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -200,7 +200,7 @@ func (c *Controller) PrayForRequest(ctx *gin.Context) {
 
 // GetMyPrayers handles GET /api/prayer/my-prayers
 func (c *Controller) GetMyPrayers(ctx *gin.Context) {
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -224,7 +224,7 @@ func (c *Controller) MarkAsAnswered(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

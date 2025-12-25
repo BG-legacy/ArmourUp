@@ -6,12 +6,22 @@ ArmourUp is a full-stack web application built with a Go backend and Next.js fro
 
 ## 🚀 Features
 
+### Core Features
 - **Modern Tech Stack**: Go backend with Gin framework, Next.js frontend with TypeScript and Tailwind CSS
 - **Containerized Deployment**: Docker and Docker Compose configuration for easy deployment
 - **Database Integration**: PostgreSQL database with automated migrations
 - **Structured Logging**: zap logger for structured, production-ready logging
 - **API Validation**: Request validation middleware
 - **CORS Support**: Configurable cross-origin resource sharing
+- **Authentication & Authorization**: Secure JWT-based authentication system
+
+### Spiritual Growth Features
+- **Daily Encouragement**: Get personalized Bible verses and encouragement for spiritual struggles
+- **Prayer Wall**: Share anonymous prayer requests and pray for others in the community
+- **Prayer Chains**: Create and join prayer groups where members commit to pray for each other
+- **Gratitude Journal**: Record daily blessings and practice thanksgiving with categorized entries
+- **Mood Tracker**: Track emotional and spiritual well-being with daily check-ins and trend analysis
+- **Prayer History**: Review past prayers, encouragements, and see answered prayers
 
 ## 🧰 Tech Stack
 

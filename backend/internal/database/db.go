@@ -9,7 +9,10 @@ import (
 	"time"
 
 	"armourup/internal/domain/encouragement"
+	"armourup/internal/domain/gratitude"
+	"armourup/internal/domain/insights"
 	"armourup/internal/domain/journal"
+	"armourup/internal/domain/mood"
 	"armourup/internal/domain/prayer"
 	"armourup/internal/domain/prayerchain"
 	"armourup/internal/domain/user"
@@ -130,6 +133,9 @@ func InitDB() (*gorm.DB, error) {
 // - PrayerChain
 // - ChainMember
 // - PrayerCommitment
+// - MoodEntry
+// - GratitudeEntry
+// - ProgressInsight
 // Returns an error if migration fails.
 func AutoMigrate(db *gorm.DB) error {
 	return db.AutoMigrate(
@@ -141,5 +147,8 @@ func AutoMigrate(db *gorm.DB) error {
 		&prayerchain.PrayerChain{},
 		&prayerchain.ChainMember{},
 		&prayerchain.PrayerCommitment{},
+		&mood.MoodEntry{},
+		&gratitude.GratitudeEntry{},
+		&insights.ProgressInsight{},
 	)
 }

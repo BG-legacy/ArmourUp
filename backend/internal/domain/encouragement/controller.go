@@ -110,7 +110,7 @@ func (c *Controller) LogStruggle(ctx *gin.Context) {
 	}
 
 	// Get user ID from context (set by auth middleware)
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

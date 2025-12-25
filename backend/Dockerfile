@@ -45,6 +45,9 @@ COPY --from=builder /app/main .
 # Copy configuration files
 COPY --from=builder /app/config ./config
 
+# Copy database migrations
+COPY --from=builder /app/migrations ./migrations
+
 # Expose the port the application runs on
 EXPOSE 8080
 

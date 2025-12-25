@@ -15,7 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,28 +28,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Check if user is already logged in (on component mount)
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('accessToken');
-      
-      if (token) {
-        try {
-          // Call API to get current user
-          const response = await fetch('/api/users/me', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          
-          if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-          } else {
-            // If token is invalid, clear it
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
+      try {
+        // First, try to authenticate using cookies (which are sent automatically)
+        let response = await fetch('/api/users/me');
+        
+        // If cookie auth fails, try with token from localStorage (for backward compatibility)
+        if (!response.ok) {
+          const token = localStorage.getItem('accessToken');
+          if (token) {
+            response = await fetch('/api/users/me', {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
           }
-        } catch (error) {
-          console.error('Auth check error:', error);
         }
+        
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        } else {
+          // If authentication fails, clear localStorage
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        // Clear localStorage on error
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
       }
       
       setIsLoading(false);
@@ -161,12 +168,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('rememberMe');
-    setUser(null);
-    router.push('/login');
+  const logout = async () => {
+    try {
+      // Call the logout API to clear the cookie
+      await fetch('/api/logout', {
+        method: 'POST',
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Clear localStorage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('rememberMe');
+      setUser(null);
+      router.push('/login');
+    }
   };
 
   return (

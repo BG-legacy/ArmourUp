@@ -17,7 +17,7 @@ func NewController(service *Service) *Controller {
 
 // CreatePrayerChain handles POST /api/prayer-chains
 func (c *Controller) CreatePrayerChain(ctx *gin.Context) {
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -69,7 +69,7 @@ func (c *Controller) GetAllPrayerChains(ctx *gin.Context) {
 
 // GetUserPrayerChains handles GET /api/prayer-chains/my-chains
 func (c *Controller) GetUserPrayerChains(ctx *gin.Context) {
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -93,7 +93,7 @@ func (c *Controller) UpdatePrayerChain(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -136,7 +136,7 @@ func (c *Controller) DeletePrayerChain(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -170,7 +170,7 @@ func (c *Controller) JoinChain(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -193,7 +193,7 @@ func (c *Controller) LeaveChain(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -209,7 +209,7 @@ func (c *Controller) LeaveChain(ctx *gin.Context) {
 
 // CommitToPray handles POST /api/prayer-chains/commit
 func (c *Controller) CommitToPray(ctx *gin.Context) {
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -245,7 +245,7 @@ func (c *Controller) RemoveCommitment(ctx *gin.Context) {
 		return
 	}
 
-	userID, exists := ctx.Get("userID")
+	userID, exists := ctx.Get("user_id")
 	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

@@ -4,7 +4,10 @@ package server
 import (
 	"armourup/internal/domain/auth"
 	"armourup/internal/domain/encouragement"
+	"armourup/internal/domain/gratitude"
+	"armourup/internal/domain/insights"
 	"armourup/internal/domain/journal"
+	"armourup/internal/domain/mood"
 	"armourup/internal/domain/openai"
 	"armourup/internal/domain/prayer"
 	"armourup/internal/domain/prayerchain"
@@ -104,6 +107,32 @@ func setupOpenAIRoutes(router *gin.RouterGroup) {
 	}
 }
 
+// setupInsightsRoutes configures routes for progress insights.
+// Includes endpoints for generating and retrieving AI-generated monthly summaries.
+// Routes are protected and include rate limiting (5 requests per minute).
+func setupInsightsRoutes(router *gin.RouterGroup, db *gorm.DB) {
+	openaiService, err := openai.NewService()
+	if err != nil {
+		log.Printf("Warning: Insights feature disabled (OpenAI not configured): %v", err)
+		return
+	}
+
+	insightsRepo := insights.NewRepository(db)
+	insightsService := insights.NewService(insightsRepo, openaiService.GetClient())
+	insightsController := insights.NewController(insightsService)
+
+	insightsGroup := router.Group("/insights")
+	insightsGroup.Use(middleware.AuthMiddleware())
+	insightsGroup.Use(middleware.RateLimiter("5-M")) // 5 requests per minute
+	{
+		insightsGroup.POST("/generate", insightsController.GenerateInsight)
+		insightsGroup.GET("", insightsController.GetUserInsights)
+		insightsGroup.GET("/period", insightsController.GetInsightForPeriod)
+		insightsGroup.GET("/periods", insightsController.GetAvailablePeriods)
+		insightsGroup.GET("/:id", insightsController.GetInsight)
+	}
+}
+
 // setupPrayerRoutes configures routes for managing prayer requests.
 // Includes CRUD operations, tracking prayers, and marking prayers as answered.
 // All routes are protected and require authentication.
@@ -156,14 +185,63 @@ func setupPrayerChainRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	}
 }
 
+// setupMoodRoutes configures routes for managing mood tracker entries.
+// Includes CRUD operations, daily check-ins, and trend analysis.
+// All routes are protected and require authentication.
+func setupMoodRoutes(router *gin.RouterGroup, db *gorm.DB) {
+	moodRepo := mood.NewRepository(db)
+	moodService := mood.NewService(moodRepo)
+	moodController := mood.NewController(moodService)
+
+	moodGroup := router.Group("/mood")
+	moodGroup.Use(middleware.AuthMiddleware())
+	{
+		moodGroup.POST("", moodController.CreateEntry)
+		moodGroup.GET("", moodController.GetUserEntries)
+		moodGroup.GET("/today", moodController.GetTodayEntry)
+		moodGroup.GET("/recent", moodController.GetRecentEntries)
+		moodGroup.GET("/range", moodController.GetEntriesInRange)
+		moodGroup.GET("/trends", moodController.GetMoodTrends)
+		moodGroup.GET("/:id", moodController.GetEntry)
+		moodGroup.PUT("/:id", moodController.UpdateEntry)
+		moodGroup.DELETE("/:id", moodController.DeleteEntry)
+	}
+}
+
+// setupGratitudeRoutes configures routes for managing gratitude journal entries.
+// Includes CRUD operations, daily blessings, and category filtering.
+// All routes are protected and require authentication.
+func setupGratitudeRoutes(router *gin.RouterGroup, db *gorm.DB) {
+	gratitudeRepo := gratitude.NewRepository(db)
+	gratitudeService := gratitude.NewService(gratitudeRepo)
+	gratitudeController := gratitude.NewController(gratitudeService)
+
+	gratitudeGroup := router.Group("/gratitude")
+	gratitudeGroup.Use(middleware.AuthMiddleware())
+	{
+		gratitudeGroup.POST("", gratitudeController.CreateEntry)
+		gratitudeGroup.GET("", gratitudeController.GetUserEntries)
+		gratitudeGroup.GET("/today", gratitudeController.GetTodayEntry)
+		gratitudeGroup.GET("/recent", gratitudeController.GetRecentEntries)
+		gratitudeGroup.GET("/range", gratitudeController.GetEntriesInRange)
+		gratitudeGroup.GET("/category", gratitudeController.GetByCategory)
+		gratitudeGroup.GET("/:id", gratitudeController.GetEntry)
+		gratitudeGroup.PUT("/:id", gratitudeController.UpdateEntry)
+		gratitudeGroup.DELETE("/:id", gratitudeController.DeleteEntry)
+	}
+}
+
 // SetupRoutes initializes all API routes and their handlers.
 // This is the main routing configuration function that sets up all route groups:
 // - Health check endpoint
 // - Authentication routes
 // - Encouragement routes
 // - Journal routes
+// - Gratitude journal routes
 // - Prayer wall routes
 // - Prayer chain routes
+// - Mood tracker routes
+// - Progress insights routes (if OpenAI configured)
 // - OpenAI integration routes (if configured)
 func SetupRoutes(router *gin.Engine, db *gorm.DB, logger *zap.Logger) {
 	api := router.Group("/api")
@@ -172,8 +250,11 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB, logger *zap.Logger) {
 		setupAuthRoutes(api, db, logger)
 		setupEncouragementRoutes(api, db)
 		setupJournalRoutes(api, db)
+		setupGratitudeRoutes(api, db)
 		setupPrayerRoutes(api, db)
 		setupPrayerChainRoutes(api, db)
+		setupMoodRoutes(api, db)
+		setupInsightsRoutes(api, db)
 		setupOpenAIRoutes(api)
 	}
 }

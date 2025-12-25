@@ -31,6 +31,11 @@ func NewService() (*Service, error) {
 	return &Service{client: client}, nil
 }
 
+// GetClient returns the OpenAI client for use in other services
+func (s *Service) GetClient() *openai.Client {
+	return s.client
+}
+
 func (s *Service) buildPrompt(userInput string) string {
 	return fmt.Sprintf(`Based on the following situation or feeling, provide a relevant Bible verse and a brief message of encouragement:
 	
