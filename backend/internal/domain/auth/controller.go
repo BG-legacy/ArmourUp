@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -10,18 +11,21 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
 type Controller struct {
 	db      *gorm.DB
 	userSvc user.Service
+	logger  *zap.Logger
 }
 
-func NewController(db *gorm.DB, userSvc user.Service) *Controller {
+func NewController(db *gorm.DB, userSvc user.Service, logger *zap.Logger) *Controller {
 	return &Controller{
 		db:      db,
 		userSvc: userSvc,
+		logger:  logger,
 	}
 }
 
@@ -75,6 +79,7 @@ func (c *Controller) Register(ctx *gin.Context) {
 func (c *Controller) Login(ctx *gin.Context) {
 	var creds LoginCredentials
 	if err := ctx.ShouldBindJSON(&creds); err != nil {
+		c.logger.Warn("Login request validation failed", zap.Error(err))
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -82,12 +87,19 @@ func (c *Controller) Login(ctx *gin.Context) {
 	// Find user by email
 	user, err := c.userSvc.GetUserByEmail(creds.Email)
 	if err != nil {
+		// Log the error for debugging (but don't expose details to client)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.logger.Info("Login attempt with non-existent email", zap.String("email", creds.Email))
+		} else {
+			c.logger.Error("Error fetching user during login", zap.String("email", creds.Email), zap.Error(err))
+		}
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
 
 	// Check password
 	if !CheckPasswordHash(creds.Password, user.PasswordHash) {
+		c.logger.Info("Login attempt with incorrect password", zap.String("email", creds.Email), zap.Uint("user_id", user.ID))
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}

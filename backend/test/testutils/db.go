@@ -17,6 +17,17 @@ func SetupTestDB(t *testing.T) *gorm.DB {
 	configPath, _ := filepath.Abs("../../config/test_config.yaml")
 	os.Setenv("CONFIG_PATH", configPath)
 
+	// Set test database environment variables
+	os.Setenv("ARMOURUP_DATABASE_HOST", "localhost")
+	os.Setenv("ARMOURUP_DATABASE_PORT", "5432")
+	os.Setenv("ARMOURUP_DATABASE_USER", "postgres")
+	os.Setenv("ARMOURUP_DATABASE_PASSWORD", "postgres")
+	os.Setenv("ARMOURUP_DATABASE_DBNAME", "armourup_test")
+	os.Setenv("ARMOURUP_DATABASE_SSLMODE", "disable")
+	
+	// Set JWT secret for auth middleware
+	os.Setenv("JWT_SECRET", "test-secret-key")
+
 	// Load test config
 	if err := config.LoadConfig(); err != nil {
 		t.Fatalf("Failed to load test config: %v", err)

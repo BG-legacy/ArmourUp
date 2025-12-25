@@ -15,6 +15,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestEncouragementEndpoints(t *testing.T) {
@@ -34,7 +35,8 @@ func TestEncouragementEndpoints(t *testing.T) {
 	router := gin.Default()
 
 	// Initialize server and set up routes
-	server.SetupRoutes(router, db)
+	logger := zap.NewNop()
+	server.SetupRoutes(router, db, logger)
 
 	// First create a test user
 	registerData := map[string]string{

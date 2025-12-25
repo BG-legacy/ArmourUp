@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
   /* Primary Colors */
   --primary-50: #f0f7ff;
@@ -190,4 +191,63 @@ input:focus, textarea:focus, select:focus {
   background-color: rgba(255, 255, 255, 0.15);
   border-color: #FFD700;
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+/* Landing Page Color Scheme (Orange & Gray) */
+.orange-text {
+  color: #f97316;
+}
+
+.gray-text {
+  color: #d1d5db;
+}
+
+.orange-button {
+  background-color: #f97316;
+  color: #000000;
+  border: none;
+  transition: all 0.3s ease;
+  font-family: var(--font-orbitron);
+  letter-spacing: 0.05em;
+}
+
+.orange-button:hover {
+  background-color: #ea580c;
+  transform: translateY(-1px);
+}
+
+.orange-card {
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.orange-input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: #d1d5db;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.orange-input::placeholder {
+  color: rgba(209, 213, 219, 0.6);
+}
+
+.orange-input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+.dark-background {
+  background-color: #000000;
+  min-height: 100vh;
+}
+
+.orbitron-font {
+  font-family: var(--font-orbitron);
+  letter-spacing: 0.05em;
 }

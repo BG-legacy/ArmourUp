@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestServer(t *testing.T) {
@@ -35,7 +36,8 @@ func TestServer(t *testing.T) {
 	})
 
 	// Initialize server and set up routes
-	server.SetupRoutes(router, db)
+	logger := zap.NewNop()
+	server.SetupRoutes(router, db, logger)
 
 	t.Run("Health Check", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/health", nil)

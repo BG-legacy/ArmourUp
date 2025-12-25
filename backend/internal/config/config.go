@@ -74,7 +74,11 @@ func LoadConfig() error {
 	viper.SetDefault("server.port", "8080")
 	viper.SetDefault("database.host", "localhost")
 	viper.SetDefault("database.port", "5432")
-	viper.SetDefault("jwt.secret", "your-secret-key") // TODO: In production, use environment variable
+	viper.SetDefault("jwt.secret", "your-secret-key") // Default fallback
+
+	// Bind environment variables
+	// Viper will automatically map ARMOURUP_JWT_SECRET to jwt.secret
+	viper.BindEnv("jwt.secret", "ARMOURUP_JWT_SECRET")
 
 	// Read config file
 	if err := viper.ReadInConfig(); err != nil {

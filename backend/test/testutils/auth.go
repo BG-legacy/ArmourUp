@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -48,7 +49,9 @@ func GenerateTestToken(t *testing.T, userID uint) string {
 func CreateTestAuthContext(t *testing.T, db *gorm.DB) (*auth.Controller, string) {
 	userRepo := user.NewRepository(db)
 	userSvc := user.NewService(userRepo)
-	authController := auth.NewController(db, userSvc)
+	// Use a no-op logger for tests
+	logger := zap.NewNop()
+	authController := auth.NewController(db, userSvc, logger)
 
 	// Create test user
 	email := "test@example.com"

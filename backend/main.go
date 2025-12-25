@@ -106,7 +106,7 @@ func main() {
 	router.Use(middleware.InputValidator())
 
 	// Initialize server
-	srv := server.NewServer(router, db)
+	srv := server.NewServer(router, db, logger)
 
 	// Start server
 	port := viper.GetString("server.port")

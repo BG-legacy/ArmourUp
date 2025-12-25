@@ -16,11 +16,29 @@ import { useEffect, useState } from 'react';
 export default function LandingPage() {
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const [taglineText, setTaglineText] = useState('');
+  const [showTaglineCursor, setShowTaglineCursor] = useState(false);
 
   useEffect(() => {
     // Typewriter animation to form "ARMOR UP"
     const fullText = 'ARMOR UP';
     let index = 0;
+    
+    const startTaglineTyping = () => {
+      const tagline = 'Biblical Strength for Life\'s Battles';
+      let taglineIndex = 0;
+      
+      const taglineInterval = setInterval(() => {
+        if (taglineIndex < tagline.length) {
+          setTaglineText(tagline.slice(0, taglineIndex + 1));
+          taglineIndex++;
+        } else {
+          clearInterval(taglineInterval);
+          // Hide tagline cursor after typing is complete
+          setTimeout(() => setShowTaglineCursor(false), 500);
+        }
+      }, 100);
+    };
     
     const typewriterInterval = setInterval(() => {
       if (index < fullText.length) {
@@ -29,7 +47,14 @@ export default function LandingPage() {
       } else {
         clearInterval(typewriterInterval);
         // Hide cursor after typing is complete
-        setTimeout(() => setShowCursor(false), 500);
+        setTimeout(() => {
+          setShowCursor(false);
+          // Start tagline typing after a brief pause
+          setTimeout(() => {
+            setShowTaglineCursor(true);
+            startTaglineTyping();
+          }, 500);
+        }, 500);
       }
     }, 150);
 
@@ -57,25 +82,6 @@ export default function LandingPage() {
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header Navigation */}
-        <header className="w-full px-8 md:px-16 py-8 flex items-center justify-between">
-          {/* Left - Navigation item with corner bracket */}
-          <div className="flex items-center gap-2">
-            <span className="text-gray-400 text-sm tracking-wider">┌</span>
-            <Link href="/dashboard" className="text-gray-400 hover:text-gray-300 text-sm tracking-wider transition-colors">
-              PLANS
-            </Link>
-          </div>
-
-          {/* Right - Menu with corner bracket */}
-          <div className="flex items-center gap-2">
-            <Link href="/dashboard" className="text-gray-400 hover:text-gray-300 text-sm tracking-wider transition-colors">
-              MENU
-            </Link>
-            <span className="text-gray-400 text-sm tracking-wider">┘</span>
-          </div>
-        </header>
-
         {/* Main Content - Centered */}
         <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 pb-20">
           {/* ARMOR UP - Typewriter headline */}
@@ -86,6 +92,13 @@ export default function LandingPage() {
                 {showCursor && <span className="typewriter-cursor">|</span>}
               </span>
             </h2>
+            {/* Tagline - Typewriter effect */}
+            {taglineText && (
+              <p className="tagline-text">
+                {taglineText}
+                {showTaglineCursor && <span className="tagline-cursor">|</span>}
+              </p>
+            )}
           </div>
           
           {/* Scanline effect overlay */}
@@ -109,6 +122,7 @@ export default function LandingPage() {
       {/* Enhanced ARMOR UP styles */}
       <style jsx>{`
         .armor-up-headline {
+          font-family: var(--font-orbitron), 'Arial Black', sans-serif;
           font-size: clamp(4rem, 12vw, 8rem);
           font-weight: 900;
           letter-spacing: 0.05em;
@@ -121,8 +135,25 @@ export default function LandingPage() {
           position: relative;
         }
 
+        .tagline-text {
+          color: #d1d5db;
+          font-size: clamp(1rem, 2.5vw, 1.5rem);
+          font-weight: 300;
+          letter-spacing: 0.1em;
+          margin-top: 1.5rem;
+          text-transform: uppercase;
+          opacity: 0.9;
+        }
+
         .typewriter-cursor {
           color: #f97316;
+          animation: blink 1s infinite;
+          margin-left: 4px;
+          font-weight: 300;
+        }
+
+        .tagline-cursor {
+          color: #d1d5db;
           animation: blink 1s infinite;
           margin-left: 4px;
           font-weight: 300;

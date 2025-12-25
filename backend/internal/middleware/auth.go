@@ -3,6 +3,7 @@ package middleware
 
 import (
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -13,9 +14,24 @@ import (
 	"github.com/spf13/viper"
 )
 
-// jwtKey is the secret key used for signing JWT tokens.
-// TODO: In production, this should be loaded from environment variables.
-var jwtKey = []byte("your-secret-key")
+// getJWTSecret retrieves the JWT secret key from configuration.
+// It checks viper first, then falls back to direct environment variable lookup,
+// and finally to a default value if neither is set.
+func getJWTSecret() []byte {
+	// Try viper first (supports config file and env vars)
+	secret := viper.GetString("jwt.secret")
+	if secret != "" && secret != "your-secret-key" {
+		return []byte(secret)
+	}
+
+	// Fallback to direct environment variable lookup
+	if secret = os.Getenv("ARMOURUP_JWT_SECRET"); secret != "" {
+		return []byte(secret)
+	}
+
+	// Final fallback (should not happen in production)
+	return []byte("your-secret-key")
+}
 
 // AuthMiddleware is a Gin middleware that validates JWT tokens in the Authorization header.
 // It performs the following checks:
@@ -45,7 +61,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		tokenString := parts[1]
 		claims := &auth.Claims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-			return []byte(viper.GetString("jwt.secret")), nil
+			return getJWTSecret(), nil
 		})
 
 		if err != nil {
@@ -81,7 +97,7 @@ func GenerateToken(userID uint, email, role string) (*auth.TokenResponse, error)
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(jwtKey)
+	tokenString, err := token.SignedString(getJWTSecret())
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +107,7 @@ func GenerateToken(userID uint, email, role string) (*auth.TokenResponse, error)
 	rtClaims := refreshToken.Claims.(jwt.MapClaims)
 	rtClaims["user_id"] = userID
 	rtClaims["exp"] = time.Now().Add(7 * 24 * time.Hour).Unix()
-	refreshTokenString, err := refreshToken.SignedString(jwtKey)
+	refreshTokenString, err := refreshToken.SignedString(getJWTSecret())
 	if err != nil {
 		return nil, err
 	}

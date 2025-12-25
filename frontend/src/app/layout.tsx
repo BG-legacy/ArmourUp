@@ -5,7 +5,7 @@
  */
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -21,6 +21,18 @@ const inter = Inter({
 });
 
 /**
+ * Configure Orbitron font for tactical/tech aesthetic
+ * @constant
+ * @type {Object}
+ */
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+/**
  * Application metadata configuration
  * @constant
  * @type {Metadata}
@@ -28,6 +40,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ArmorUp - Put on the Full Armor of God",
   description: "ArmorUp helps you strengthen your faith and stand firm against life's challenges through scripture, prayer, and community.",
+  other: {
+    'font-cargo': 'https://fonts.cdnfonts.com/css/cargo',
+  },
 };
 
 /**
@@ -44,7 +59,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <head>
+        <link
+          href="https://fonts.cdnfonts.com/css/cargo"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <AuthProvider>
           <main className="flex-grow">
             {children}

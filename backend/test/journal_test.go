@@ -14,6 +14,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestJournalEndpoints(t *testing.T) {
@@ -33,7 +34,8 @@ func TestJournalEndpoints(t *testing.T) {
 	router := gin.Default()
 
 	// Initialize server and set up routes
-	server.SetupRoutes(router, db)
+	logger := zap.NewNop()
+	server.SetupRoutes(router, db, logger)
 
 	// First create a test user and get token
 	registerData := map[string]string{

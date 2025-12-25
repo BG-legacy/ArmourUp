@@ -24,6 +24,7 @@ services:
       - ARMOURUP_DATABASE_USER=armourup  # Database user
       - ARMOURUP_DATABASE_PASSWORD=armourup_password  # Database password
       - ARMOURUP_DATABASE_DBNAME=armourup  # Database name
+      - ARMOURUP_DATABASE_SSLMODE=disable  # Disable SSL for local Docker PostgreSQL
       
       # Optional OpenAI integration
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}  # Optional OpenAI API key

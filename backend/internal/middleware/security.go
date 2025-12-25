@@ -99,19 +99,20 @@ func RequestLogger() gin.HandlerFunc {
 
 // InputValidator is a middleware that validates incoming request bodies.
 // It performs the following checks:
-// - Skips validation for GET requests
-// - Ensures non-GET requests have a non-empty body
+// - Skips validation for GET and DELETE requests
+// - Validates body presence only when Content-Type indicates JSON
 // Returns a 400 Bad Request if validation fails.
 func InputValidator() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Skip validation for GET requests
-		if c.Request.Method == "GET" {
+		// Skip validation for GET and DELETE requests
+		if c.Request.Method == "GET" || c.Request.Method == "DELETE" {
 			c.Next()
 			return
 		}
 
-		// Check if request body is empty
-		if c.Request.ContentLength == 0 {
+		// Only validate body if Content-Type is application/json
+		contentType := c.GetHeader("Content-Type")
+		if contentType == "application/json" && c.Request.ContentLength == 0 {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Request body cannot be empty"})
 			c.Abort()
 			return

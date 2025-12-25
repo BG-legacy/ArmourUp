@@ -70,10 +70,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify({ email, password }),
       });
       
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        console.error('Failed to parse login response:', parseError);
+        throw new Error('Invalid response from server');
+      }
       
       if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+        // Throw error with the message from the backend
+        const errorMessage = data?.error || `Login failed (${response.status})`;
+        throw new Error(errorMessage);
+      }
+      
+      // Validate that we have the required tokens
+      if (!data.access_token || !data.refresh_token) {
+        console.error('Missing tokens in response:', data);
+        throw new Error('Invalid response: missing authentication tokens');
       }
       
       // Store tokens
@@ -90,11 +104,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (userResponse.ok) {
         const userData = await userResponse.json();
         setUser(userData);
+      } else {
+        console.warn('Failed to fetch user data after login');
       }
       
       router.push('/dashboard');
     } catch (error) {
       console.error('Login error:', error);
+      // Re-throw the error so the calling component can handle it
       throw error;
     } finally {
       setIsLoading(false);

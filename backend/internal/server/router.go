@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
@@ -15,20 +16,22 @@ import (
 type Server struct {
 	router *gin.Engine
 	db     *gorm.DB
+	logger *zap.Logger
 }
 
 // NewServer creates and returns a new Server instance with the provided router and database connection.
-func NewServer(router *gin.Engine, db *gorm.DB) *Server {
+func NewServer(router *gin.Engine, db *gorm.DB, logger *zap.Logger) *Server {
 	return &Server{
 		router: router,
 		db:     db,
+		logger: logger,
 	}
 }
 
 // Start initializes the server routes and begins listening on the specified address.
 // Returns an error if the server fails to start.
 func (s *Server) Start(addr string) error {
-	SetupRoutes(s.router, s.db)
+	SetupRoutes(s.router, s.db, s.logger)
 	return s.router.Run(addr)
 }
 
@@ -47,11 +50,12 @@ func (s *Server) setupRoutes() {
 	api := s.router.Group("/api")
 
 	// Auth routes
-	setupAuthRoutes(api, s.db)
+	setupAuthRoutes(api, s.db, s.logger)
 
 	// Protected routes
 	setupEncouragementRoutes(api, s.db)
 	setupJournalRoutes(api, s.db)
+	setupPrayerRoutes(api, s.db)
 
 	// User routes
 	userRepo := user.NewRepository(s.db)

@@ -10,6 +10,8 @@ import (
 
 	"armourup/internal/domain/encouragement"
 	"armourup/internal/domain/journal"
+	"armourup/internal/domain/prayer"
+	"armourup/internal/domain/prayerchain"
 	"armourup/internal/domain/user"
 
 	"gorm.io/driver/postgres"
@@ -38,13 +40,32 @@ func NewConfig() *Config {
 		User:     os.Getenv("ARMOURUP_DATABASE_USER"),
 		Password: os.Getenv("ARMOURUP_DATABASE_PASSWORD"),
 		DBName:   os.Getenv("ARMOURUP_DATABASE_DBNAME"),
-		SSLMode:  "disable", // TODO: Change to "require" in production
+		SSLMode:  getSSLMode(),
 	}
+}
+
+// getSSLMode determines the appropriate SSL mode for the database connection.
+// For Supabase and other cloud providers, SSL is required.
+func getSSLMode() string {
+	sslMode := os.Getenv("ARMOURUP_DATABASE_SSLMODE")
+	if sslMode == "" {
+		// Default to require for cloud databases like Supabase
+		return "require"
+	}
+	return sslMode
 }
 
 // DSN returns the Data Source Name (connection string) for the database.
 // The string is formatted according to PostgreSQL's connection string format.
+// If DATABASE_URL is set, it uses that directly (for Supabase compatibility).
 func (c *Config) DSN() string {
+	// Check if DATABASE_URL is provided (common for Supabase and other cloud providers)
+	if databaseURL := os.Getenv("DATABASE_URL"); databaseURL != "" {
+		log.Println("Using DATABASE_URL for connection")
+		return databaseURL
+	}
+	
+	// Otherwise, construct DSN from individual components
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		c.Host, c.Port, c.User, c.Password, c.DBName, c.SSLMode)
 }
@@ -104,11 +125,21 @@ func InitDB() (*gorm.DB, error) {
 // - User
 // - Encouragement
 // - JournalEntry
+// - PrayerRequest
+// - PrayerLog
+// - PrayerChain
+// - ChainMember
+// - PrayerCommitment
 // Returns an error if migration fails.
 func AutoMigrate(db *gorm.DB) error {
 	return db.AutoMigrate(
 		&user.User{},
 		&encouragement.Encouragement{},
 		&journal.JournalEntry{},
+		&prayer.PrayerRequest{},
+		&prayer.PrayerLog{},
+		&prayerchain.PrayerChain{},
+		&prayerchain.ChainMember{},
+		&prayerchain.PrayerCommitment{},
 	)
 }

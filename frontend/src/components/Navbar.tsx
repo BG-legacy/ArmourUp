@@ -72,6 +72,11 @@ const Navbar = () => {
             </Link>
           </motion.li>
           <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link href="/prayer-wall" className="hover:text-blue-600 transition-colors">
+              PRAYER WALL
+            </Link>
+          </motion.li>
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href="/history" className="hover:text-blue-600 transition-colors">
               HISTORY
             </Link>
