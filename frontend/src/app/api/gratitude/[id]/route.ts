@@ -5,9 +5,10 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:808
 // GET /api/gratitude/[id] - Get specific gratitude entry
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const authHeader = request.headers.get('authorization');
     
     if (!authHeader) {
@@ -17,7 +18,7 @@ export async function GET(
       );
     }
 
-    const response = await fetch(`${BACKEND_URL}/api/gratitude/${params.id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'GET',
       headers: {
         'Authorization': authHeader,
@@ -47,9 +48,10 @@ export async function GET(
 // PUT /api/gratitude/[id] - Update gratitude entry
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const authHeader = request.headers.get('authorization');
     
     if (!authHeader) {
@@ -61,7 +63,7 @@ export async function PUT(
 
     const body = await request.json();
 
-    const response = await fetch(`${BACKEND_URL}/api/gratitude/${params.id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': authHeader,
@@ -92,9 +94,10 @@ export async function PUT(
 // DELETE /api/gratitude/[id] - Delete gratitude entry
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const authHeader = request.headers.get('authorization');
     
     if (!authHeader) {
@@ -104,7 +107,7 @@ export async function DELETE(
       );
     }
 
-    const response = await fetch(`${BACKEND_URL}/api/gratitude/${params.id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': authHeader,

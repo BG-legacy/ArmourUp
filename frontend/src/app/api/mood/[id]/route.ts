@@ -6,9 +6,10 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 // GET /api/mood/[id] - Get a specific mood entry
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     
@@ -16,7 +17,7 @@ export async function GET(
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const response = await fetch(`${API_BASE}/mood/${params.id}`, {
+    const response = await fetch(`${API_BASE}/mood/${id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -43,9 +44,10 @@ export async function GET(
 // PUT /api/mood/[id] - Update a mood entry
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     
@@ -55,7 +57,7 @@ export async function PUT(
 
     const body = await req.json();
 
-    const response = await fetch(`${API_BASE}/mood/${params.id}`, {
+    const response = await fetch(`${API_BASE}/mood/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -83,9 +85,10 @@ export async function PUT(
 // DELETE /api/mood/[id] - Delete a mood entry
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     
@@ -93,7 +96,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const response = await fetch(`${API_BASE}/mood/${params.id}`, {
+    const response = await fetch(`${API_BASE}/mood/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
