@@ -104,9 +104,9 @@ export default function Login() {
   };
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden" style={{ width: '100vw', height: '100dvh' }}>
+    <div className="fixed inset-0 w-full h-full bg-black" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ width: '100%', height: '100%' }}>
+      <div className="absolute inset-0 w-full h-full" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -125,15 +125,20 @@ export default function Login() {
 
       {/* Scanline effect overlay */}
       <div 
-        className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.03] z-20"
+        className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
         style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
           width: '100%',
           height: '100%'
         }}
       />
 
-      <div className="relative z-10 w-full h-full flex items-center justify-center px-4 py-6 sm:p-4 overflow-y-auto" style={{ width: '100%', height: '100%' }}>
+      <div className="absolute inset-0 flex items-center justify-center px-4 py-6 sm:p-4 overflow-y-auto" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', zIndex: 10 }}>
         <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg my-auto">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>

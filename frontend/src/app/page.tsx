@@ -62,9 +62,9 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden" style={{ width: '100vw', height: '100dvh' }}>
+    <div className="fixed inset-0 w-full h-full bg-black" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden bg-black" style={{ width: '100%', height: '100%' }}>
+      <div className="absolute inset-0 w-full h-full bg-black" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -83,15 +83,20 @@ export default function LandingPage() {
 
       {/* Scanline effect overlay */}
       <div 
-        className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.03] z-20"
+        className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
         style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
           width: '100%',
           height: '100%'
         }}
       />
 
-      <div className="relative z-10 w-full h-full flex flex-col" style={{ width: '100%', height: '100%' }}>
+      <div className="absolute inset-0 flex flex-col" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', zIndex: 10 }}>
         {/* Main Content - Centered */}
         <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6">
           {/* ARMOR UP - Typewriter headline */}
