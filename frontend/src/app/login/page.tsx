@@ -132,7 +132,7 @@ export default function Login() {
       />
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8 sm:py-12">
-        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/20 rounded-sm shadow-[0_0_30px_rgba(249,115,22,0.3)] my-4">
+        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/60 backdrop-blur-md border-2 border-[#f97316]/60 rounded-sm shadow-[0_0_40px_rgba(249,115,22,0.4)] my-4">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>
               Welcome Back
@@ -171,7 +171,7 @@ export default function Login() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/5 border border-[#f97316]/20 text-white placeholder:text-gray-500 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/30 focus:bg-white/10 backdrop-blur-sm transition-all"
+                  className="mt-1 block w-full px-3 py-2 bg-black/30 border-2 border-[#f97316]/50 text-white placeholder:text-gray-500 rounded-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/50 focus:bg-black/50 backdrop-blur-sm transition-all shadow-[0_0_10px_rgba(249,115,22,0.2)]"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.email && (
@@ -190,7 +190,7 @@ export default function Login() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/5 border border-[#f97316]/20 text-white placeholder:text-gray-500 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/30 focus:bg-white/10 backdrop-blur-sm transition-all"
+                  className="mt-1 block w-full px-3 py-2 bg-black/30 border-2 border-[#f97316]/50 text-white placeholder:text-gray-500 rounded-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/50 focus:bg-black/50 backdrop-blur-sm transition-all shadow-[0_0_10px_rgba(249,115,22,0.2)]"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.password && (
@@ -207,7 +207,7 @@ export default function Login() {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleChange}
-                  className="h-4 w-4 border-[#f97316]/20 focus:ring-[#f97316]/30 rounded bg-white/5 text-[#f97316]"
+                  className="h-4 w-4 border-2 border-[#f97316]/50 focus:ring-[#f97316]/50 rounded bg-black/30 text-[#f97316] focus:ring-2"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm" style={{ color: '#d1d5db', fontFamily: 'var(--font-inter)' }}>
                   Remember me
