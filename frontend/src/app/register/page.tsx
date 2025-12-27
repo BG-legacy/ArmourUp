@@ -137,9 +137,9 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden bg-black">
+    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -164,7 +164,7 @@ export default function Register() {
         }}
       />
 
-      <div className="relative z-10 min-h-screen min-h-[100dvh] flex items-center justify-center px-4 py-6 sm:p-4">
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-4 py-6 sm:p-4 overflow-y-auto">
         <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg my-auto">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>

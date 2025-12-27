@@ -62,9 +62,9 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] h-full w-full overflow-hidden bg-black">
+    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 overflow-hidden bg-black">
+      <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -81,9 +81,17 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col">
+      {/* Scanline effect overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
+        style={{
+          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
+        }}
+      />
+
+      <div className="relative z-10 w-full h-full flex flex-col">
         {/* Main Content - Centered */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6 pb-safe">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6">
           {/* ARMOR UP - Typewriter headline */}
           <div className="text-center mb-12 relative">
             <h2 className="armor-up-headline">
@@ -100,14 +108,6 @@ export default function LandingPage() {
               </p>
             )}
           </div>
-          
-          {/* Scanline effect overlay */}
-          <div 
-            className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
-            style={{
-              background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
-            }}
-          />
 
           {/* CTA Button */}
           <Link 
@@ -121,11 +121,6 @@ export default function LandingPage() {
 
       {/* Enhanced ARMOR UP styles */}
       <style jsx>{`
-        /* Safe area handling for mobile devices */
-        .pb-safe {
-          padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-        }
-
         .armor-up-headline {
           font-family: var(--font-orbitron), 'Arial Black', sans-serif;
           font-size: clamp(4rem, 12vw, 8rem);
