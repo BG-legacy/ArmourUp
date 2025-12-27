@@ -104,7 +104,7 @@ export default function Login() {
   };
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden" style={{ width: '100vw', height: '100vh', minHeight: '100vh', minHeight: '100dvh' }}>
+    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden" style={{ width: '100vw', height: '100dvh' }}>
       {/* Animated Background Effects */}
       <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ width: '100%', height: '100%' }}>
         {/* Animated gradient orbs */}
