@@ -62,7 +62,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+    <div className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden bg-black">
       {/* Animated Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Animated gradient orbs */}
@@ -81,9 +81,9 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div className="relative z-10 min-h-screen flex flex-col">
+      <div className="relative z-10 min-h-screen min-h-[100dvh] flex flex-col">
         {/* Main Content - Centered */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 pb-20">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6 pb-safe">
           {/* ARMOR UP - Typewriter headline */}
           <div className="text-center mb-12 relative">
             <h2 className="armor-up-headline">
@@ -121,6 +121,11 @@ export default function LandingPage() {
 
       {/* Enhanced ARMOR UP styles */}
       <style jsx>{`
+        /* Safe area handling for mobile devices */
+        .pb-safe {
+          padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+        }
+
         .armor-up-headline {
           font-family: var(--font-orbitron), 'Arial Black', sans-serif;
           font-size: clamp(4rem, 12vw, 8rem);
