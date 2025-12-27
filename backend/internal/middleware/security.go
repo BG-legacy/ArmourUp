@@ -4,6 +4,7 @@ package middleware
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,23 +22,34 @@ import (
 // - Access-Control-Max-Age
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Allow both local development and production origins
-		allowedOrigins := []string{"http://localhost:3000", "http://127.0.0.1:3000", "https://armourup.onrender.com", "https://armour-up.vercel.app"}
-
 		origin := c.Request.Header.Get("Origin")
-
-		// Default to first origin if not in list
-		allowOrigin := allowedOrigins[0]
-
-		// Check if the request origin is in our allowed list
-		for _, allowed := range allowedOrigins {
-			if origin == allowed {
-				allowOrigin = origin
-				break
-			}
+		
+		// Check if origin is allowed
+		isAllowed := false
+		
+		// Allow local development
+		if origin == "http://localhost:3000" || origin == "http://127.0.0.1:3000" {
+			isAllowed = true
 		}
-
-		c.Writer.Header().Set("Access-Control-Allow-Origin", allowOrigin)
+		
+		// Allow production domains
+		if origin == "https://armourup.onrender.com" || 
+		   origin == "https://armour-up.vercel.app" {
+			isAllowed = true
+		}
+		
+		// Allow all Vercel preview deployments (*.vercel.app)
+		if strings.HasSuffix(origin, ".vercel.app") {
+			isAllowed = true
+		}
+		
+		// Set CORS headers
+		if isAllowed {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
+		} else {
+			// Default to localhost for development
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		}
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
