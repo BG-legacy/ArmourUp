@@ -137,7 +137,7 @@ export default function Register() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+    <div className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden bg-black">
       {/* Animated Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Animated gradient orbs */}
@@ -164,8 +164,8 @@ export default function Register() {
         }}
       />
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg">
+      <div className="relative z-10 min-h-screen min-h-[100dvh] flex items-center justify-center px-4 py-6 sm:p-4">
+        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg my-auto">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>
               Join Our Community
@@ -205,7 +205,7 @@ export default function Register() {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-[#d1d5db] rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                    className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm placeholder:text-gray-400"
                     style={{ fontFamily: 'var(--font-inter)' }}
                   />
                   {errors.firstName && (
@@ -224,7 +224,7 @@ export default function Register() {
                     required
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-[#d1d5db] rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                    className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm placeholder:text-gray-400"
                     style={{ fontFamily: 'var(--font-inter)' }}
                   />
                   {errors.lastName && (
@@ -244,7 +244,7 @@ export default function Register() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-[#d1d5db] rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm placeholder:text-gray-400"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.email && (
@@ -263,7 +263,7 @@ export default function Register() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-[#d1d5db] rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm placeholder:text-gray-400"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.password && (
@@ -282,7 +282,7 @@ export default function Register() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-[#d1d5db] rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm placeholder:text-gray-400"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.confirmPassword && (

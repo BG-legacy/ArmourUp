@@ -60,12 +60,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
         <link
           href="https://fonts.cdnfonts.com/css/cargo"
           rel="stylesheet"
         />
       </head>
-      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased min-h-screen min-h-[100dvh] flex flex-col`}>
         <AuthProvider>
           <main className="flex-grow">
             {children}
