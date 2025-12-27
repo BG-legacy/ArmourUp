@@ -158,9 +158,9 @@ export default function Register() {
 
       {/* Scanline effect overlay */}
       <div 
-        className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.05] z-20"
+        className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.03] z-20"
         style={{
-          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.2) 2px, rgba(255,255,255,0.2) 4px)',
+          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
           width: '100%',
           height: '100%'
         }}
@@ -322,33 +322,33 @@ export default function Register() {
         .animated-orb {
           position: absolute;
           border-radius: 50%;
-          filter: blur(60px);
-          opacity: 0.6;
+          filter: blur(80px);
+          opacity: 0.3;
           animation: float 20s ease-in-out infinite;
         }
 
         .orb-1 {
-          width: min(600px, 90vw);
-          height: min(600px, 90vw);
-          background: radial-gradient(circle, rgba(249, 115, 22, 1) 0%, rgba(249, 115, 22, 0.8) 30%, transparent 70%);
-          top: -25%;
-          left: -25%;
+          width: min(500px, 80vw);
+          height: min(500px, 80vw);
+          background: radial-gradient(circle, rgba(249, 115, 22, 0.8) 0%, transparent 70%);
+          top: -20%;
+          left: -20%;
           animation-delay: 0s;
         }
 
         .orb-2 {
-          width: min(500px, 85vw);
-          height: min(500px, 85vw);
-          background: radial-gradient(circle, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0.6) 30%, transparent 70%);
-          bottom: -20%;
-          right: -20%;
+          width: min(400px, 70vw);
+          height: min(400px, 70vw);
+          background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+          bottom: -15%;
+          right: -15%;
           animation-delay: -7s;
         }
 
         .orb-3 {
-          width: min(450px, 75vw);
-          height: min(450px, 75vw);
-          background: radial-gradient(circle, rgba(249, 115, 22, 0.9) 0%, rgba(249, 115, 22, 0.6) 30%, transparent 70%);
+          width: min(350px, 60vw);
+          height: min(350px, 60vw);
+          background: radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, transparent 70%);
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
@@ -374,11 +374,11 @@ export default function Register() {
           width: 100%;
           height: 100%;
           background-image: 
-            linear-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(249, 115, 22, 0.08) 1px, transparent 1px);
+            linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
           background-size: 50px 50px;
           animation: gridMove 20s linear infinite;
-          opacity: 0.8;
+          opacity: 0.5;
         }
 
         @keyframes gridMove {
@@ -401,11 +401,11 @@ export default function Register() {
 
         .particle {
           position: absolute;
-          width: 6px;
-          height: 6px;
-          background: rgba(249, 115, 22, 0.9);
+          width: 4px;
+          height: 4px;
+          background: rgba(249, 115, 22, 0.6);
           border-radius: 50%;
-          box-shadow: 0 0 10px rgba(249, 115, 22, 1), 0 0 20px rgba(249, 115, 22, 0.5);
+          box-shadow: 0 0 6px rgba(249, 115, 22, 0.8);
           animation: particleFloat 15s ease-in-out infinite;
         }
 
@@ -433,19 +433,19 @@ export default function Register() {
         @keyframes particleFloat {
           0%, 100% {
             transform: translate(0, 0) scale(1) rotate(0deg);
-            opacity: 0.6;
+            opacity: 0.3;
           }
           25% {
             transform: translate(30px, -40px) scale(1.3) rotate(90deg);
-            opacity: 0.9;
+            opacity: 0.7;
           }
           50% {
             transform: translate(-20px, 30px) scale(1.5) rotate(180deg);
-            opacity: 1;
+            opacity: 0.8;
           }
           75% {
             transform: translate(40px, 20px) scale(1.2) rotate(270deg);
-            opacity: 0.8;
+            opacity: 0.6;
           }
         }
       `}</style>
