@@ -104,9 +104,9 @@ export default function Login() {
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
+    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden" style={{ width: '100vw', height: '100vh', minHeight: '100vh', minHeight: '100dvh' }}>
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ width: '100%', height: '100%' }}>
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -125,13 +125,15 @@ export default function Login() {
 
       {/* Scanline effect overlay */}
       <div 
-        className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
+        className="fixed inset-0 w-full h-full pointer-events-none opacity-[0.03] z-20"
         style={{
           background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
+          width: '100%',
+          height: '100%'
         }}
       />
 
-      <div className="relative z-10 w-full h-full flex items-center justify-center px-4 py-6 sm:p-4 overflow-y-auto">
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-4 py-6 sm:p-4 overflow-y-auto" style={{ width: '100%', height: '100%' }}>
         <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg my-auto">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>
@@ -250,26 +252,26 @@ export default function Login() {
         }
 
         .orb-1 {
-          width: 500px;
-          height: 500px;
+          width: min(500px, 80vw);
+          height: min(500px, 80vw);
           background: radial-gradient(circle, rgba(249, 115, 22, 0.8) 0%, transparent 70%);
-          top: -200px;
-          left: -200px;
+          top: -20%;
+          left: -20%;
           animation-delay: 0s;
         }
 
         .orb-2 {
-          width: 400px;
-          height: 400px;
+          width: min(400px, 70vw);
+          height: min(400px, 70vw);
           background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
-          bottom: -150px;
-          right: -150px;
+          bottom: -15%;
+          right: -15%;
           animation-delay: -7s;
         }
 
         .orb-3 {
-          width: 350px;
-          height: 350px;
+          width: min(350px, 60vw);
+          height: min(350px, 60vw);
           background: radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, transparent 70%);
           top: 50%;
           left: 50%;
@@ -293,6 +295,8 @@ export default function Login() {
         .animated-grid {
           position: absolute;
           inset: 0;
+          width: 100%;
+          height: 100%;
           background-image: 
             linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
@@ -314,6 +318,8 @@ export default function Login() {
         .particles {
           position: absolute;
           inset: 0;
+          width: 100%;
+          height: 100%;
           overflow: hidden;
         }
 
