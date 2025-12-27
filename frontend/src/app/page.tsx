@@ -62,9 +62,9 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+    <div className="relative min-h-screen w-full overflow-hidden bg-black">
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 w-full h-full bg-black" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' }}>
+      <div className="absolute inset-0 overflow-hidden">
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
@@ -81,24 +81,9 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Scanline effect overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
-          width: '100%',
-          height: '100%'
-        }}
-      />
-
-      <div className="absolute inset-0 flex flex-col" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%', zIndex: 10 }}>
+      <div className="relative z-10 min-h-screen flex flex-col">
         {/* Main Content - Centered */}
-        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6">
+        <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-8 pb-20">
           {/* ARMOR UP - Typewriter headline */}
           <div className="text-center mb-12 relative">
             <h2 className="armor-up-headline">
@@ -115,6 +100,14 @@ export default function LandingPage() {
               </p>
             )}
           </div>
+          
+          {/* Scanline effect overlay */}
+          <div 
+            className="fixed inset-0 pointer-events-none opacity-[0.03] z-20"
+            style={{
+              background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.15) 2px, rgba(255,255,255,0.15) 4px)',
+            }}
+          />
 
           {/* CTA Button */}
           <Link 
@@ -209,26 +202,26 @@ export default function LandingPage() {
         }
 
         .orb-1 {
-          width: min(500px, 80vw);
-          height: min(500px, 80vw);
+          width: 500px;
+          height: 500px;
           background: radial-gradient(circle, rgba(249, 115, 22, 0.8) 0%, transparent 70%);
-          top: -20%;
-          left: -20%;
+          top: -200px;
+          left: -200px;
           animation-delay: 0s;
         }
 
         .orb-2 {
-          width: min(400px, 70vw);
-          height: min(400px, 70vw);
+          width: 400px;
+          height: 400px;
           background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
-          bottom: -15%;
-          right: -15%;
+          bottom: -150px;
+          right: -150px;
           animation-delay: -7s;
         }
 
         .orb-3 {
-          width: min(350px, 60vw);
-          height: min(350px, 60vw);
+          width: 350px;
+          height: 350px;
           background: radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, transparent 70%);
           top: 50%;
           left: 50%;
@@ -252,8 +245,6 @@ export default function LandingPage() {
         .animated-grid {
           position: absolute;
           inset: 0;
-          width: 100%;
-          height: 100%;
           background-image: 
             linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
@@ -275,8 +266,6 @@ export default function LandingPage() {
         .particles {
           position: absolute;
           inset: 0;
-          width: 100%;
-          height: 100%;
           overflow: hidden;
         }
 

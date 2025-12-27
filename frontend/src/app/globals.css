@@ -30,8 +30,8 @@
   --accent-warm: #f59e0b;
   --accent-cool: #3b82f6;
   
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
@@ -39,38 +39,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
-    --foreground: #ffffff;
+    --background: var(--neutral-900);
+    --foreground: var(--neutral-50);
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  background: #000000;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  overflow: hidden;
-}
-
 body {
-  background: #000000;
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans, Arial, Helvetica, sans-serif);
   letter-spacing: 0.025em;
   line-height: 1.6;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  position: fixed;
-  inset: 0;
 }
 
 /* Modern Card Styles */
