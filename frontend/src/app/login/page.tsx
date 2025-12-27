@@ -132,7 +132,7 @@ export default function Login() {
       />
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8 sm:py-12">
-        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/30 rounded-sm shadow-lg my-4">
+        <div className="w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-black/40 backdrop-blur-md border border-[#f97316]/20 rounded-sm shadow-[0_0_30px_rgba(249,115,22,0.3)] my-4">
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: 'var(--font-orbitron)', color: '#f97316', letterSpacing: '0.05em' }}>
               Welcome Back
@@ -171,7 +171,7 @@ export default function Login() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white placeholder:text-gray-400 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white/5 border border-[#f97316]/20 text-white placeholder:text-gray-500 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/30 focus:bg-white/10 backdrop-blur-sm transition-all"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.email && (
@@ -190,7 +190,7 @@ export default function Login() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 bg-white/10 border border-[#f97316]/30 text-white placeholder:text-gray-400 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/20 backdrop-blur-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white/5 border border-[#f97316]/20 text-white placeholder:text-gray-500 rounded-sm shadow-sm focus:outline-none focus:border-[#f97316] focus:ring-2 focus:ring-[#f97316]/30 focus:bg-white/10 backdrop-blur-sm transition-all"
                   style={{ fontFamily: 'var(--font-inter)' }}
                 />
                 {errors.password && (
@@ -207,7 +207,7 @@ export default function Login() {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleChange}
-                  className="h-4 w-4 border-[#f97316]/30 focus:ring-[#f97316] rounded bg-white/10 text-[#f97316]"
+                  className="h-4 w-4 border-[#f97316]/20 focus:ring-[#f97316]/30 rounded bg-white/5 text-[#f97316]"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm" style={{ color: '#d1d5db', fontFamily: 'var(--font-inter)' }}>
                   Remember me
@@ -219,7 +219,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading || authLoading}
-                className="w-full flex justify-center py-2 px-4 bg-gray-100 text-gray-800 text-sm font-medium tracking-wider uppercase rounded-sm hover:bg-gray-200 transition-colors border border-gray-300 disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 bg-[#f97316] text-black text-sm font-medium tracking-wider uppercase rounded-sm hover:bg-[#ea580c] transition-all border border-[#f97316] hover:border-[#ea580c] disabled:opacity-50 shadow-lg hover:shadow-[#f97316]/50"
                 style={{ fontFamily: 'var(--font-orbitron)', letterSpacing: '0.1em' }}
               >
                 {isLoading || authLoading ? "Signing in..." : "Sign in"}
