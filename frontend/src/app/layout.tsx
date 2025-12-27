@@ -58,15 +58,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth bg-black">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        <meta name="theme-color" content="#000000" />
         <link
           href="https://fonts.cdnfonts.com/css/cargo"
           rel="stylesheet"
         />
       </head>
-      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased min-h-screen min-h-[100dvh] flex flex-col`}>
+      <body className={`${inter.variable} ${orbitron.variable} font-sans antialiased min-h-screen min-h-[100dvh] flex flex-col bg-black`}>
         <AuthProvider>
           <main className="flex-grow">
             {children}

@@ -62,9 +62,9 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden bg-black">
+    <div className="relative min-h-screen min-h-[100dvh] h-full w-full overflow-hidden bg-black">
       {/* Animated Background Effects */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden bg-black">
         {/* Animated gradient orbs */}
         <div className="animated-orb orb-1"></div>
         <div className="animated-orb orb-2"></div>
