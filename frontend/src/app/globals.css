@@ -121,12 +121,14 @@ input, textarea, select {
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   transition: all 0.2s ease;
+  color: #000000;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--primary-400);
   box-shadow: 0 0 0 3px var(--primary-100);
+  color: #000000;
 }
 
 /* Leather Background and Gold Text Styles */
@@ -176,21 +178,22 @@ input:focus, textarea:focus, select:focus {
 }
 
 .gold-input {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid #FFD700;
-  color: #FFD700;
+  color: #000000;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .gold-input::placeholder {
-  color: rgba(255, 215, 0, 0.6);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .gold-input:focus {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.95);
   border-color: #FFD700;
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+  color: #000000;
 }
 
 /* Landing Page Color Scheme (Orange & Gray) */
@@ -225,19 +228,19 @@ input:focus, textarea:focus, select:focus {
 }
 
 .orange-input {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(249, 115, 22, 0.3);
-  color: #d1d5db;
+  color: #000000;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .orange-input::placeholder {
-  color: rgba(209, 213, 219, 0.6);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .orange-input:focus {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.95);
   border-color: #f97316;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
 }
@@ -250,4 +253,24 @@ input:focus, textarea:focus, select:focus {
 .orbitron-font {
   font-family: var(--font-orbitron);
   letter-spacing: 0.05em;
+}
+
+/* Ensure inputs with orange-card background have visible text */
+input.orange-card,
+textarea.orange-card,
+select.orange-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000000;
+}
+
+input.orange-card:focus,
+textarea.orange-card:focus,
+select.orange-card:focus {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #000000;
+}
+
+input.orange-card::placeholder,
+textarea.orange-card::placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }
