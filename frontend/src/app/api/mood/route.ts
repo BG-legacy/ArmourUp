@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080';
 
 // GET /api/mood - Get all mood entries for the current user
 export async function GET(req: NextRequest) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const searchParams = url.searchParams;
     
     // Build query string for different types of requests
-    let endpoint = `${API_BASE}/mood`;
+    let endpoint = `${BACKEND_URL}/api/mood`;
     if (searchParams.has('start_date') && searchParams.has('end_date')) {
       endpoint += `/range?start_date=${searchParams.get('start_date')}&end_date=${searchParams.get('end_date')}`;
     } else if (searchParams.has('recent')) {
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const response = await fetch(`${API_BASE}/mood`, {
+    const response = await fetch(`${BACKEND_URL}/api/mood`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

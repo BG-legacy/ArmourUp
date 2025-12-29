@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080';
 
 // GET /api/mood/[id] - Get a specific mood entry
 export async function GET(
@@ -17,7 +17,7 @@ export async function GET(
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const response = await fetch(`${API_BASE}/mood/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/mood/${id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -57,7 +57,7 @@ export async function PUT(
 
     const body = await req.json();
 
-    const response = await fetch(`${API_BASE}/mood/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/mood/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -96,7 +96,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const response = await fetch(`${API_BASE}/mood/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/mood/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
