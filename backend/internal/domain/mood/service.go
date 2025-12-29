@@ -175,3 +175,4 @@ func (s *Service) GetMoodTrends(userID uint, days int) (*MoodTrendStats, error) 
 }
 
 
+

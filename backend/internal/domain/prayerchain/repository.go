@@ -110,3 +110,4 @@ func (r *Repository) HasCommitment(chainID, memberID, prayForUserID uint) (bool,
 
 
 
+

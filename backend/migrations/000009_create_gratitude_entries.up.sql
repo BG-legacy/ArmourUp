@@ -17,3 +17,4 @@ CREATE INDEX idx_gratitude_category ON gratitude_entries(category);
 CREATE INDEX idx_gratitude_deleted_at ON gratitude_entries(deleted_at);
 
 
+

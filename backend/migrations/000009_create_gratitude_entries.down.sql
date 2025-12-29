@@ -5,3 +5,4 @@ DROP INDEX IF EXISTS idx_gratitude_user_id;
 DROP TABLE IF EXISTS gratitude_entries;
 
 
+
