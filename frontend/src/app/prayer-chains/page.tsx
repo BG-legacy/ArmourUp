@@ -552,22 +552,23 @@ export default function PrayerChains() {
                             Joined {formatDate(member.created_at)}
                           </p>
                         </div>
-                        {!isCurrentUser && isMember(selectedChain) && (
+                        {!isCurrentUser && isMember(selectedChain) && memberUser?.id && (
                           <button
                             onClick={() => {
-                              if (hasCommitment(selectedChain, memberUser?.id || 0)) {
-                                handleRemoveCommitment(selectedChain.id, memberUser?.id || 0);
+                              if (!memberUser?.id) return;
+                              if (hasCommitment(selectedChain, memberUser.id)) {
+                                handleRemoveCommitment(selectedChain.id, memberUser.id);
                               } else {
-                                handleCommitToPray(selectedChain.id, memberUser?.id || 0);
+                                handleCommitToPray(selectedChain.id, memberUser.id);
                               }
                             }}
                             className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                              hasCommitment(selectedChain, memberUser?.id || 0)
+                              hasCommitment(selectedChain, memberUser.id)
                                 ? "bg-green-600 hover:bg-green-700 text-white"
                                 : "orange-button"
                             }`}
                           >
-                            {hasCommitment(selectedChain, memberUser?.id || 0)
+                            {hasCommitment(selectedChain, memberUser.id)
                               ? "✓ Committed"
                               : "Commit to Pray"}
                           </button>

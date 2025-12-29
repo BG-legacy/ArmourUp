@@ -10,8 +10,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const authHeader = req.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -48,8 +48,8 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const authHeader = req.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -89,8 +89,8 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const authHeader = req.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });

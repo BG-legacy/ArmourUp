@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+const API_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 // GET /api/insights/periods - Get available periods with insights
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('token')?.value;
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || request.cookies.get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json(
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const response = await fetch(`${API_URL}/insights/periods`, {
+    const response = await fetch(`${API_URL}/api/insights/periods`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -23,6 +24,16 @@ export async function GET(request: NextRequest) {
     });
 
     if (!response.ok) {
+      // Check if insights feature is unavailable (404 means routes not registered)
+      if (response.status === 404) {
+        return NextResponse.json(
+          { 
+            error: 'Insights feature is currently unavailable. OpenAI integration may not be configured.',
+            feature_unavailable: true 
+          }, 
+          { status: 503 }
+        );
+      }
       const error = await response.json();
       return NextResponse.json(error, { status: response.status });
     }

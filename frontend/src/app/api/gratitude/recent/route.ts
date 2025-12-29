@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080';
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 // GET /api/gratitude/recent - Get recent gratitude entries
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
-    if (!authHeader) {
+    if (!token) {
       return NextResponse.json(
         { error: 'Authorization header missing' },
         { status: 401 }
@@ -20,7 +22,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(`${BACKEND_URL}/api/gratitude/recent?limit=${limit}`, {
       method: 'GET',
       headers: {
-        'Authorization': authHeader,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080';
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 // GET /api/gratitude/[id] - Get specific gratitude entry
 export async function GET(
@@ -9,9 +10,10 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
-    if (!authHeader) {
+    if (!token) {
       return NextResponse.json(
         { error: 'Authorization header missing' },
         { status: 401 }
@@ -21,7 +23,7 @@ export async function GET(
     const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'GET',
       headers: {
-        'Authorization': authHeader,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
@@ -52,9 +54,10 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
-    if (!authHeader) {
+    if (!token) {
       return NextResponse.json(
         { error: 'Authorization header missing' },
         { status: 401 }
@@ -66,7 +69,7 @@ export async function PUT(
     const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'PUT',
       headers: {
-        'Authorization': authHeader,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -98,9 +101,10 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
-    if (!authHeader) {
+    if (!token) {
       return NextResponse.json(
         { error: 'Authorization header missing' },
         { status: 401 }
@@ -110,7 +114,7 @@ export async function DELETE(
     const response = await fetch(`${BACKEND_URL}/api/gratitude/${id}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': authHeader,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });

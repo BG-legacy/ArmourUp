@@ -26,6 +26,7 @@ export default function ProgressInsightsPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [featureUnavailable, setFeatureUnavailable] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -45,6 +46,13 @@ export default function ProgressInsightsPage() {
       const response = await fetch('/api/insights');
       
       if (!response.ok) {
+        if (response.status === 503) {
+          const data = await response.json();
+          if (data.feature_unavailable) {
+            setFeatureUnavailable(true);
+            return;
+          }
+        }
         throw new Error('Failed to fetch insights');
       }
 
@@ -267,6 +275,44 @@ export default function ProgressInsightsPage() {
 
   if (!isAuthenticated) {
     return null;
+  }
+
+  if (featureUnavailable) {
+    return (
+      <div className="relative min-h-screen dark-background p-4 sm:p-6 lg:p-8 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="animated-orb orb-1"></div>
+          <div className="animated-orb orb-2"></div>
+          <div className="animated-orb orb-3"></div>
+          <div className="animated-grid"></div>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="orange-card rounded-lg p-8 text-center">
+            <div className="mb-6">
+              <svg className="w-20 h-20 mx-auto text-orange-400 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold orange-text orbitron-font mb-4">
+              Progress Insights Coming Soon
+            </h2>
+            <p className="text-lg gray-text mb-4">
+              The AI-powered Progress Insights feature is currently being configured and will be available soon.
+            </p>
+            <p className="text-sm gray-text mb-6">
+              This feature uses advanced AI to analyze your spiritual journey and provide personalized monthly insights, including mood trends, prayer patterns, and growth recommendations.
+            </p>
+            <button
+              onClick={() => router.back()}
+              className="px-6 py-3 orange-button rounded-lg font-medium transition-all"
+            >
+              ← Back to Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

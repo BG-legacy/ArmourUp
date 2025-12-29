@@ -6,8 +6,8 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 // GET /api/mood - Get all mood entries for the current user
 export async function GET(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const authHeader = req.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -57,8 +57,8 @@ export async function GET(req: NextRequest) {
 // POST /api/mood - Create a new mood entry
 export async function POST(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const authHeader = req.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1] || (await cookies()).get('accessToken')?.value;
     
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
