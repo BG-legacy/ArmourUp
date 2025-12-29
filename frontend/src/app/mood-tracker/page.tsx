@@ -69,7 +69,12 @@ export default function MoodTracker() {
   useEffect(() => {
     const fetchTodayEntry = async () => {
       try {
-        const response = await fetch("/api/mood?today=true");
+        const token = localStorage.getItem('accessToken');
+        const response = await fetch("/api/mood?today=true", {
+          headers: {
+            "Authorization": `Bearer ${token || ''}`,
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setTodayEntry(data);
@@ -121,6 +126,7 @@ export default function MoodTracker() {
     setIsSubmitting(true);
 
     try {
+      const token = localStorage.getItem('accessToken');
       const method = todayEntry ? "PUT" : "POST";
       const url = todayEntry ? `/api/mood/${todayEntry.id}` : "/api/mood";
 
@@ -128,6 +134,7 @@ export default function MoodTracker() {
         method,
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token || ''}`,
         },
         body: JSON.stringify(formData),
       });
