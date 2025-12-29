@@ -122,3 +122,4 @@ func (c *Controller) GetAvailablePeriods(ctx *gin.Context) {
 	})
 }
 
+

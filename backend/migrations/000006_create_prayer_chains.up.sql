@@ -42,3 +42,4 @@ CREATE INDEX idx_prayer_commitments_pray_for_user_id ON prayer_commitments(pray_
 
 
 
+

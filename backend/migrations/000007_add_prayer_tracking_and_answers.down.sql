@@ -8,3 +8,4 @@ ALTER TABLE prayer_requests DROP COLUMN IF EXISTS answer_testimony;
 
 
 
+

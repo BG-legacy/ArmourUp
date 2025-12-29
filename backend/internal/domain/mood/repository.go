@@ -69,3 +69,4 @@ func (r *Repository) GetRecentEntries(userID uint, limit int) ([]MoodEntry, erro
 	return entries, err
 }
 
+

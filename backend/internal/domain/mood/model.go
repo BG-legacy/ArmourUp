@@ -49,3 +49,4 @@ type MoodTrendStats struct {
 	TotalEntries    int     `json:"total_entries"`
 }
 
+

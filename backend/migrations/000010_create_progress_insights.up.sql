@@ -19,3 +19,4 @@ CREATE INDEX idx_progress_insights_user_period ON progress_insights(user_id, per
 CREATE INDEX idx_progress_insights_user_id ON progress_insights(user_id);
 CREATE INDEX idx_progress_insights_deleted_at ON progress_insights(deleted_at);
 
+

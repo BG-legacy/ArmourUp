@@ -19,3 +19,4 @@ type GratitudeEntry struct {
 	DeletedAt   gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"`
 }
 
+

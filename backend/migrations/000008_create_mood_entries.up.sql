@@ -21,3 +21,4 @@ CREATE INDEX idx_mood_entries_date ON mood_entries(date);
 CREATE INDEX idx_mood_entries_user_date ON mood_entries(user_id, date);
 CREATE INDEX idx_mood_entries_deleted_at ON mood_entries(deleted_at);
 
+

@@ -251,3 +251,4 @@ func (c *Controller) GetMoodTrends(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, trends)
 }
 
+

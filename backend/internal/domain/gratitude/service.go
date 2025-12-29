@@ -52,3 +52,4 @@ func (s *Service) DeleteEntry(id uint) error {
 	return s.repo.Delete(id)
 }
 
+
